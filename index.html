@@ -54,8 +54,9 @@ a{color:var(--blue)}.hidden{display:none!important}
 <label>Job title *</label><input id="jobTitle" placeholder="e.g. Litter Pick-up" required>
 <label>What work will you be doing?</label><textarea id="description" placeholder="Briefly describe the task..."></textarea>
 <div class="grid2"><div><label>Site</label><input id="site" value="Millfields Trust"></div><div><label>Building / location</label><input id="building" placeholder="e.g. Main office"></div></div>
-<div class="grid2"><div><label>Instructed by</label><input id="instructed" placeholder="Name"></div><div><label>Responsible person</label><select id="responsible"><option>Luke</option><option>Jason</option></select></div></div>
+<div class="grid2"><div><label>Who has instructed the works to be carried out?</label><select id="instructed"><option value="">Select a person</option><option>Anna</option><option>Louise</option><option>Devon</option><option>Keely</option><option value="Other">Other – enter a name</option></select><div id="instructedOtherWrap" hidden><label>Other person's name</label><input id="instructedOther" placeholder="Enter name"></div></div><div><label>Responsible person</label><select id="responsible"><option>Luke</option><option>Jason</option></select></div></div>
 <div class="grid2"><div><label>Other people on site</label><input id="others" placeholder="e.g. Jason / Nobody"></div><div><label>Compiled by</label><select id="compiled"><option>Luke</option><option>Jason</option></select></div></div>
+<div class="panel"><h2>Work carried out by</h2><p class="sub">Choose the operative responsible for carrying out the work.</p><select id="operativeName"><option value="">Select a person</option><option>Luke</option><option>Jason</option></select></div>
 <label>Risk assessment number (if applicable)</label><input id="riskNumber" placeholder="Optional reference number"><label>Task location / notes</label><textarea id="siteNotes" placeholder="Access, restrictions or anything the client has mentioned..."></textarea>
 </div>
 <button class="primary" onclick="goHazards()">Next: review hazards →</button>
@@ -93,6 +94,7 @@ a{color:var(--blue)}.hidden{display:none!important}
 <div class="panel"><h2>Daily plant / tools inspection</h2><div id="toolsList"></div><label>Other equipment</label><input id="toolsOther" placeholder="Optional"></div>
 <div class="panel"><h2>PPE required</h2><div id="ppeList"></div><label>Other PPE</label><input id="ppeOther" placeholder="Specify"></div>
 <div class="panel"><h2>Work requirements</h2><div id="requirementsList"></div></div>
+<div class="panel"><h2>Job completion</h2><p class="sub">These can be completed when the job is finished. Leave unticked until confirmed.</p><div id="completionList"></div><label>Completion sign-off by</label><input id="completionSignedBy" placeholder="Name (complete after the work)"><label>Completion comments</label><textarea id="completionComments" placeholder="Optional comments"></textarea></div>
 <div class="actions"><button class="secondary" onclick="show('site')">← Back</button><button class="primary" onclick="goReview()">Next: review →</button></div>
 </section>
 <section id="review" class="screen">
@@ -112,7 +114,7 @@ a{color:var(--blue)}.hidden{display:none!important}
   <button type="button" onclick="applyUpdate()">Update now</button>
 </div>
 <footer class="app-footer">
-  <span>Risk Assessment Manager v1.5.3</span>
+  <span>Risk Assessment Manager v1.6</span>
   <span id="updateStatus">Checking for updates…</span>
 </footer>
 <script>
@@ -154,22 +156,42 @@ welfare:['Agreement To Use The Existing Clients Facilities','Use Temporary Facil
 siteInfo:['Asbestos Present In The Job Location','Children / Vulnerable Persons Present','Building Structural Problems','Specific Site Restrictions','Restricted Access / Egress to the Work Location','Specific Site Emergency Procedures','Restricted Material Storage'],
 tools:['Lifting Equipment','Access Equipment','110v Lighting & Equipment','Hand & Power Tools'],
 ppe:['Steel Toe Caps','Safety Glasses','Gloves','Hi-Viz Clothing','Wet Weather Gear','Hard Hat','Dust Mask','Goggles','Face Shield','Harness'],
-requirements:['Use Of Power Tools','Working From Mobile Scaffold Tower','Working On Fixed Scaffold','Working Off A Ladder / Stepladders / Podium','Drilling or Other Noisy Works','Cutting & Grinding','Use Of Hand Tools / Spanners / Pipe Wrench','Use of Specialist Hired Equipment']
+requirements:['Use Of Power Tools','Working From Mobile Scaffold Tower','Working On Fixed Scaffold','Working Off A Ladder / Stepladders / Podium','Drilling or Other Noisy Works','Cutting & Grinding','Use Of Hand Tools / Spanners / Pipe Wrench','Use of Specialist Hired Equipment'],
+
+completion:['Surplus Materials Removed From Site','Surplus Materials / Tools Returned To Store','Completed Permits Returned & Signed Off','Rubbish Cleaned Up And Removed','Walkways Not Obstructed','Any Material Stacked Or Stored Correctly','Area Safe']
 };
+
+function applySmartSuggestions(){
+ const text=((current.title||'')+' '+(current.description||'')).toLowerCase();
+ const add=(key,items)=>{const set=new Set(current[key]||[]);items.forEach(v=>set.add(v));current[key]=Array.from(set)};
+ const has=(terms)=>terms.some(t=>text.includes(t));
+ const suggestions=[
+  {terms:['litter','litter pick','rubbish pick','waste pick'],hazards:['Manual Handling','Sharp Edges On Materials','Hazardous Waste / WEEE','Road Traffic','Falls On Same Level, Slips & Trips','Poor Housekeeping'],ppe:['Gloves','Hi-Viz Clothing','Steel Toe Caps'],tools:['Hand & Power Tools'],requirements:['Use Of Hand Tools / Spanners / Pipe Wrench'],activities:['Exterior Cleaning Works'],siteInfo:[],welfare:[],communication:['Daily Briefing Before Work Starts']},
+  {terms:['bin','bins','wheelie bin','waste bin'],hazards:['Manual Handling','Road Traffic','Falls On Same Level, Slips & Trips','Impact / Crushing'],ppe:['Gloves','Hi-Viz Clothing','Steel Toe Caps'],tools:['Hand & Power Tools'],requirements:['Use Of Hand Tools / Spanners / Pipe Wrench'],activities:['Job Set-Up / Planning']},
+  {terms:['ladder','stepladder','steps','podium','high level','roof','gutter','working at height'],hazards:['WAH - Falling From Height','WAH - Ladders','WAH - Stepladders','Dropped Objects','Falls On Same Level, Slips & Trips','Weather'],ppe:['Steel Toe Caps','Gloves','Hi-Viz Clothing','Hard Hat'],tools:['Access Equipment'],requirements:['Working Off A Ladder / Stepladders / Podium'],activities:['High Level Works Requiring Access']},
+  {terms:['light fitting','light','lighting','electrical','socket','switch','cable','fuse','lamp'],hazards:['Electricity','Live Cables','Unserviceable Electrical Tools','Dropped Objects'],ppe:['Steel Toe Caps','Safety Glasses','Gloves'],tools:['110v Lighting & Equipment','Hand & Power Tools'],requirements:['Use Of Power Tools','Drilling or Other Noisy Works'],activities:['Electrical Fitting or Accessory Replacement','Lighting Works and lamp Replacement']},
+  {terms:['manual handling','lift','lifting','carry','move furniture','heavy item','move tables'],hazards:['Manual Handling','Poor Ergonomics','Impact / Crushing'],ppe:['Steel Toe Caps','Gloves'],requirements:['Use Of Hand Tools / Spanners / Pipe Wrench'],activities:['Job Set-Up / Planning']},
+  {terms:['paint','painting','solvent'],hazards:['COSHH / Chemicals / Hazardous Substances','Vapours / Fumes','Falls On Same Level, Slips & Trips'],ppe:['Gloves','Safety Glasses','Dust Mask'],requirements:['Use Of Hand Tools / Spanners / Pipe Wrench'],activities:['Painting and Preparation']},
+  {terms:['grass','mow','cutting grass','grounds','hedge','strimmer'],hazards:['Flying Particles','Noise / Vibration','Unguarded Machinery','Weather','Manual Handling'],ppe:['Safety Glasses','Gloves','Hi-Viz Clothing','Steel Toe Caps'],tools:['Hand & Power Tools'],requirements:['Use Of Power Tools'],activities:['Exterior Cleaning Works']},
+  {terms:['drill','drilling','fixing','power tool'],hazards:['Noise / Vibration','Flying Particles','Unserviceable Electrical Tools','Electricity'],ppe:['Safety Glasses','Gloves','Ear Protection'],tools:['Hand & Power Tools'],requirements:['Use Of Power Tools','Drilling or Other Noisy Works'],activities:['Drilling and Fixing']}
+ ];
+ suggestions.forEach(rule=>{if(has(rule.terms)){Object.keys(rule).forEach(k=>{if(k!=='terms'&&Array.isArray(rule[k]))add(k,rule[k])})}});
+}
+
 function checkedValues(key){return Array.from(document.querySelectorAll('[data-check="'+key+'"]:checked')).map(x=>x.value)}
 function drawChecks(key){let el=$(key+'List');if(!el)return;el.innerHTML=CHECKS[key].map(v=>`<label class="checkrow"><input data-check="${key}" type="checkbox" value="${attr(v)}" ${(current[key]||[]).includes(v)?'checked':''} onchange="persistDraft()"><span><b>${esc(v)}</b></span></label>`).join('')}
-function renderArrangementForms(){Object.keys(CHECKS).forEach(drawChecks);['communicationOther','welfareOther','siteInfoOther','otherTrades','otherTradesWho','toolsOther','ppeOther'].forEach(k=>{if($(k))$(k).value=current[k]||''})}
-function goEquipment(){readDetails();renderArrangementForms();show('equipment')}
+function renderArrangementForms(){Object.keys(CHECKS).forEach(drawChecks);['communicationOther','welfareOther','siteInfoOther','otherTrades','otherTradesWho','toolsOther','ppeOther','operativeOther','operativeName','instructedOther','completionSignedBy','completionComments'].forEach(k=>{if($(k))$(k).value=current[k]||''});drawChecks('completion');if($('operativeName'))$('operativeName').value=current.operativeName||'';if($('operativeOtherWrap'))$('operativeOtherWrap').hidden=true;if($('instructed'))$('instructed').value=current.instructed==='Other'?'Other':(current.instructed||'');if($('instructedOtherWrap'))$('instructedOtherWrap').hidden=$('instructed')?.value!=='Other'}
+function goEquipment(){readDetails();applySmartSuggestions();renderArrangementForms();show('equipment')}
 function goReview(){readDetails();showReview()}
 
-function newAssessment(){current={title:'',description:'',site:'Millfields Trust',building:'',instructed:'',responsible:'Luke',compiled:'Luke',others:'',siteNotes:'',riskNumber:'',hazards:[],activities:[],extras:[],communication:[],welfare:[],siteInfo:[],tools:[],ppe:[],requirements:[]};extras=[];fillDetails();$('assessmentDate').value=dateISO();show('details')}
-function fillDetails(){['jobTitle','description','site','building','instructed','responsible','compiled','others','siteNotes','riskNumber','communicationOther','welfareOther','siteInfoOther','otherTrades','otherTradesWho','toolsOther','ppeOther'].forEach(k=>{const el=$(k);if(el)el.value=current[k]||''});renderArrangementForms();persistDraft()}
-function readDetails(){['jobTitle','description','site','building','instructed','responsible','compiled','others','siteNotes','riskNumber','communicationOther','welfareOther','siteInfoOther','otherTrades','otherTradesWho','toolsOther','ppeOther'].forEach(k=>{if($(k))current[k]=$(k).value.trim()});current.title=current.jobTitle;['communication','welfare','siteInfo','tools','ppe','requirements'].forEach(k=>current[k]=checkedValues(k));}
+function newAssessment(){current={title:'',description:'',site:'Millfields Trust',building:'',instructed:'',responsible:'Luke',compiled:'Luke',others:'',siteNotes:'',riskNumber:'',hazards:[],activities:[],extras:[],communication:[],welfare:[],siteInfo:[],tools:[],ppe:[],requirements:[],operativeName:'',completion:[]};extras=[];fillDetails();$('assessmentDate').value=dateISO();show('details')}
+function fillDetails(){['jobTitle','description','site','building','responsible','compiled','others','siteNotes','riskNumber','communicationOther','welfareOther','siteInfoOther','otherTrades','otherTradesWho','toolsOther','ppeOther'].forEach(k=>{const el=$(k);if(el)el.value=current[k]||''});renderArrangementForms();persistDraft()}
+function readDetails(){['jobTitle','description','site','building','instructed','responsible','compiled','others','siteNotes','riskNumber','communicationOther','welfareOther','siteInfoOther','otherTrades','otherTradesWho','toolsOther','ppeOther','operativeOther','completionSignedBy','completionComments'].forEach(k=>{if($(k))current[k]=$(k).value.trim()});current.title=current.jobTitle;current.operativeName=$('operativeName')?.value||current.operativeName||'';current.instructed=$('instructed')?.value==='Other'?($('instructedOther')?.value||''):($('instructed')?.value||'');['communication','welfare','siteInfo','tools','ppe','requirements','completion'].forEach(k=>current[k]=checkedValues(k));}
 function renderRecent(){let a=templates().slice(-4).reverse();$('recent').innerHTML=a.length?a.map((t,i)=>`<div class="jobrow"><div><b>${esc(t.title)}</b><small>Saved job · ${esc(t.updated||'')}</small></div><button class="secondary" onclick="useTemplate(${templates().length-1-i})">Use</button></div>`).join(''):'<p class="sub">Your saved jobs will appear here after your first assessment.</p>'}
 function renderTemplates(){let a=templates().slice().reverse();$('templateList').innerHTML=a.length?a.map((t,i)=>`<div class="jobrow"><div><b>${esc(t.title)}</b><small>${esc(t.building||t.site||'')} · Last used ${esc(t.updated||'')}</small></div><button class="secondary" onclick="useTemplate(${a.length-1-i})">Use</button></div>`).join(''):'<p class="sub">No saved jobs yet. Create an assessment and it will be saved automatically.</p>'}
 function useTemplate(i){let a=templates(),t=a[i];if(!t)return;current=JSON.parse(JSON.stringify(t));current.hazards=t.hazards||[];current.activities=t.activities||[];extras=current.extras||[];current.date=dateISO();fillDetails();$('assessmentDate').value=dateISO();persistDraft();show('details')}
-function refreshSuggestions(){}
-function goHazards(){readDetails();if(!current.title){alert('Please enter a job title.');return}let text=(current.title+' '+current.description).toLowerCase();let acts=new Set(current.activities||[]);rules.forEach(rule=>{if(rule.terms.some(term=>text.includes(term)))rule.activities.forEach(a=>acts.add(a))});current.activities=Array.from(acts);hazardTab='suggested';renderHazards();setHazardTab('suggested');persistDraft();show('hazards')}
+function refreshSuggestions(){if(!current)return;readDetails();applySmartSuggestions();}
+function goHazards(){readDetails();if(!current.title){alert('Please enter a job title.');return}applySmartSuggestions();let text=(current.title+' '+current.description).toLowerCase();let acts=new Set(current.activities||[]);rules.forEach(rule=>{if(rule.terms.some(term=>text.includes(term)))rule.activities.forEach(a=>acts.add(a))});current.activities=Array.from(acts);hazardTab='suggested';renderHazards();setHazardTab('suggested');persistDraft();show('hazards')}
 let hazardTab='selected';
 function setHazardTab(tab){hazardTab=tab;['selected','suggested','all'].forEach(t=>$('tab'+t[0].toUpperCase()+t.slice(1)).classList.toggle('active',t===tab));renderHazards()}
 function suggestedHazards(){let text=((current?.title||'')+' '+(current?.description||'')).toLowerCase(),found=new Set();rules.forEach(r=>{if(r.terms.some(t=>text.includes(t)))r.hazards.forEach(h=>found.add(h))});return found}
@@ -193,7 +215,7 @@ async function generateExcel(){
  const btn=document.querySelector('#review .green');btn.disabled=true;btn.textContent='Creating...';
  try{
   const resp=await fetch('./Risk Assessment.xlsx');if(!resp.ok)throw new Error('Could not load the original Excel template.');
-  const buffer=await resp.arrayBuffer();const book=new ExcelJS.Workbook();await book.xlsx.load(buffer);const sh=book.getWorksheet('Sheet1');const d=$('assessmentDate').value||dateISO();const pretty=excelDate(d);
+  const buffer=await resp.arrayBuffer();const book=new ExcelJS.Workbook();await book.xlsx.load(buffer);const sh=book.getWorksheet('Sheet1');['Sheet2','Sheet3'].forEach(n=>{const extra=book.getWorksheet(n);if(extra)book.removeWorksheet(extra.id)});const d=$('assessmentDate').value||dateISO();const pretty=excelDate(d);
   sh.getCell('A9').value='Job Date: '+pretty;
   sh.getCell('A11').value='Millfields Trust Site: '+(current.site||'');
   sh.getCell('F11').value='Building/Unit/Office Number: '+(current.building||'');
@@ -201,7 +223,7 @@ async function generateExcel(){
   sh.getCell('E15').value='Compiled By: '+(current.compiled||'');
   sh.getCell('A17').value='Who has instructed the works to be carried out: '+(current.instructed||'');
   sh.getCell('F17').value=current.responsible||'';
-  sh.getCell('F21').value=current.others||'Nobody';
+  sh.getCell('F21').value=current.operativeName || current.responsible || 'Luke';
   sh.getCell('A25').value=current.description||current.title;
   sh.getCell('A15').value='Risk Assessment Number if applicable: '+(current.riskNumber||'');
   sh.getCell('F22').value=current.otherTradesWho||'';
@@ -225,11 +247,31 @@ async function generateExcel(){
   (current.activities||[]).forEach(name=>{let a=LIB.activities.find(x=>x.name===name);if(a)sh.getCell(`J${a.row}`).value='x'});
   // additional hazards occupy the blank rows at the end of the library
   (current.extras||[]).slice(0,5).forEach((e,i)=>{let r=150+i;sh.getCell(`A${r}`).value=e.name;sh.getCell(`D${r}`).value=e.risk;sh.getCell(`H${r}`).value=e.control;sh.getCell(`T${r}`).value='x'});
-  // Add operative names and matching sign-on dates; signatures are deliberately left blank.
-  sh.getCell('A160').value=current.compiled||'';
-  sh.getCell('I160').value=new Date(d+'T12:00:00');
-  sh.getCell('K160').value=current.others&&current.others.toLowerCase()!=='nobody'?current.others:'';
-  if(sh.getCell('K160').value)sh.getCell('S160').value=new Date(d+'T12:00:00');
+  // Add selected operatives to the sign-on sheet. Signatures remain blank for handwritten sign-off.
+  const operativeNames=[];
+  if(current.operativeName&&current.operativeName!=='Other')operativeNames.push(current.operativeName);
+  if(current.operativeName==='Other'&&current.operativeOther&&current.operativeOther.trim())operativeNames.push(current.operativeOther.trim());
+  if(!operativeNames.length)operativeNames.push(current.compiled||'');
+  operativeNames.slice(0,14).forEach((name,i)=>{
+    const row=160+Math.floor(i/2), left=i%2===0;
+    const nameCell=left?`A${row}`:`K${row}`;
+    const dateCell=left?`I${row}`:`S${row}`;
+    sh.getCell(nameCell).value=name;
+    sh.getCell(dateCell).value=new Date(d+'T12:00:00');
+    sh.getCell(dateCell).numFmt='dd/mm/yyyy';
+  });
+  // Preserve the selected assessment date on every populated sign-on date.
+  [160,161,162,163,164,165,166].forEach(row=>['I','S'].forEach(col=>{
+    const cell=sh.getCell(`${col}${row}`);
+    if(cell.value instanceof Date)cell.numFmt='dd/mm/yyyy';
+  }));
+  // Job completion is intentionally optional and should only be ticked when confirmed.
+  (current.completion||[]).forEach(item=>{
+    const row=CHECKS.completion.indexOf(item)+170;
+    if(row>=170&&row<=176)sh.getCell(`I${row}`).value=current.completionSignedBy?`x - ${current.completionSignedBy}`:'x';
+  });
+  if(current.completionSignedBy)sh.getCell('I177').value='Signed off by: '+current.completionSignedBy;
+  if(current.completionComments)(current.completion||[]).forEach(item=>{const row=CHECKS.completion.indexOf(item)+170;if(row>=170&&row<=176)sh.getCell(`M${row}`).value=current.completionComments});
   const out=await book.xlsx.writeBuffer();lastBlob=new Blob([out],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
   let filename=`${current.title} - ${d.split('-').reverse().join('-')}.xlsx`.replace(/[\\/:*?"<>|]/g,'-');
   const url=URL.createObjectURL(lastBlob);const a=document.createElement('a');a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),5000);
@@ -240,14 +282,14 @@ async function generateExcel(){
 async function init(){
  try{let r=await fetch('./library.json');LIB=await r.json()}catch(e){alert('Could not load the hazard library. Please run the app from its web address, not by opening the HTML file directly.')}
  templates();renderRecent();$('assessmentDate').value=dateISO();
- document.querySelectorAll('input,textarea,select').forEach(el=>{el.addEventListener('input',persistDraft);el.addEventListener('change',persistDraft)});
+ document.querySelectorAll('input,textarea,select').forEach(el=>{el.addEventListener('input',()=>{persistDraft()});el.addEventListener('change',()=>{if(el.id==='operativeName'&&$('operativeOtherWrap'))$('operativeOtherWrap').hidden=true;if(el.id==='instructed'&&$('instructedOtherWrap'))$('instructedOtherWrap').hidden=el.value!=='Other';persistDraft()})});
  try{let saved=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');if(saved&&saved.current){current=saved.current;extras=saved.extras||current.extras||[];fillDetails();$('assessmentDate').value=saved.assessmentDate||dateISO();let target=localStorage.getItem(SCREEN_KEY)||'home';if(['details','hazards','site','equipment','review','home','templates'].includes(target)){if(target==='hazards')renderHazards();if(target==='site'||target==='equipment')renderArrangementForms();if(target==='review')showReview();show(target)}}}catch(e){}
 }
 window.addEventListener('beforeunload',persistDraft);
 
 // Explicitly expose controls used by the mobile interface's buttons.
 Object.assign(window,{newAssessment,show,goHome,goHazards,goEquipment,goReview,useTemplate,generateExcel,setHazardTab,renderHazards,addExtra,applyUpdate});
-const APP_VERSION='1.5.3';
+const APP_VERSION='1.6';
 let latestVersion=APP_VERSION;
 function versionParts(v){return String(v||'0').replace(/^v/i,'').split('.').map(n=>parseInt(n,10)||0)}
 function isNewer(remote,local){const a=versionParts(remote),b=versionParts(local);for(let i=0;i<Math.max(a.length,b.length);i++){if((a[i]||0)>(b[i]||0))return true;if((a[i]||0)<(b[i]||0))return false}return false}
