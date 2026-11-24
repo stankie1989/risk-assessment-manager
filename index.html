@@ -114,7 +114,7 @@ a{color:var(--blue)}.hidden{display:none!important}
   <button type="button" onclick="applyUpdate()">Update now</button>
 </div>
 <footer class="app-footer">
-  <span>Risk Assessment Manager v1.6.8</span>
+  <span>Risk Assessment Manager v1.6.9</span>
   <span id="updateStatus">Checking for updates…</span>
 </footer>
 <script>
@@ -236,7 +236,7 @@ function goReview(){readDetails();markStepComplete('equipment');showReview();sho
 
 function newAssessment(){current={title:'',description:'',site:'',building:'',instructed:'',responsible:'Luke',compiled:'Luke',others:'',siteNotes:'',riskNumber:'',hazards:[],activities:[],extras:[],communication:[],welfare:[],siteInfo:[],tools:[],ppe:['Steel Toe Caps'],requirements:[],operativeName:'',completion:[]};extras=[];fillDetails();$('assessmentDate').value=dateISO();show('details')}
 function fillDetails(){['jobTitle','description','site','building','responsible','compiled','siteNotes','riskNumber','communicationOther','welfareOther','siteInfoOther','otherTrades','otherTradesWho','toolsOther','ppeOther'].forEach(k=>{const el=$(k);if(el)el.value=current[k]||''});if($('instructedOther'))$('instructedOther').value=current.instructedOther||'';renderArrangementForms();persistDraft()}
-function readDetails(){['jobTitle','description','site','building','instructed','instructedOther','responsible','compiled','siteNotes','riskNumber','communicationOther','welfareOther','siteInfoOther','otherTrades','otherTradesWho','toolsOther','ppeOther','operativeOther','completionSignedBy','completionComments'].forEach(k=>{if($(k))current[k]=$(k).value.trim()});current.jobTitle=formatJobTitle(current.jobTitle);current.title=current.jobTitle;if($('jobTitle'))$('jobTitle').value=current.jobTitle;current._autoDescription=current._autoDescription||'';current._autoBuilding=current._autoBuilding||'';current.operativeName=$('operativeName')?.value||current.operativeName||'';current.instructed=$('instructed')?.value||'';current.instructedOther=$('instructed')?.value==='Other'?($('instructedOther')?.value||''):'';['communication','otherPeople','welfare','siteInfo','tools','ppe','requirements','completion'].forEach(k=>current[k]=checkedValues(k));}
+function readDetails(){['jobTitle','description','site','building','instructed','instructedOther','responsible','compiled','siteNotes','riskNumber','communicationOther','welfareOther','siteInfoOther','otherTrades','otherTradesWho','toolsOther','ppeOther','operativeOther','completionSignedBy','completionComments'].forEach(k=>{if($(k))current[k]=$(k).value.trim()});current.title=current.jobTitle;current._autoDescription=current._autoDescription||'';current._autoBuilding=current._autoBuilding||'';current.operativeName=$('operativeName')?.value||current.operativeName||'';current.instructed=$('instructed')?.value||'';current.instructedOther=$('instructed')?.value==='Other'?($('instructedOther')?.value||''):'';['communication','otherPeople','welfare','siteInfo','tools','ppe','requirements','completion'].forEach(k=>current[k]=checkedValues(k));}
 function renderRecent(){let a=templates().slice(-4).reverse();$('recent').innerHTML=a.length?a.map((t,i)=>`<div class="jobrow"><div><b>${esc(t.title)}</b><small>Saved job · ${esc(t.updated||'')}</small></div><button class="secondary" onclick="useTemplate(${templates().length-1-i})">Use</button></div>`).join(''):'<p class="sub">Your saved jobs will appear here after your first assessment.</p>'}
 function renderTemplates(){let a=templates().slice().reverse();$('templateList').innerHTML=a.length?a.map((t,i)=>`<div class="jobrow"><div><b>${esc(t.title)}</b><small>${esc(t.building||t.site||'')} · Last used ${esc(t.updated||'')}</small></div><button class="secondary" onclick="useTemplate(${a.length-1-i})">Use</button></div>`).join(''):'<p class="sub">No saved jobs yet. Create an assessment and it will be saved automatically.</p>'}
 function useTemplate(i){let a=templates(),t=a[i];if(!t)return;current=JSON.parse(JSON.stringify(t));current.hazards=t.hazards||[];current.activities=t.activities||[];extras=current.extras||[];current.date=dateISO();fillDetails();$('assessmentDate').value=dateISO();persistDraft();show('details')}
@@ -371,7 +371,7 @@ window.addEventListener('beforeunload',persistDraft);
 
 // Explicitly expose controls used by the mobile interface's buttons.
 Object.assign(window,{newAssessment,show,goHome,goHazards,goSite,goEquipment,goReview,navigateStep,useTemplate,generateExcel,setHazardTab,renderHazards,addExtra,applyUpdate});
-const APP_VERSION='1.6.8';
+const APP_VERSION='1.6.9';
 let latestVersion=APP_VERSION;
 function versionParts(v){return String(v||'0').replace(/^v/i,'').split('.').map(n=>parseInt(n,10)||0)}
 function isNewer(remote,local){const a=versionParts(remote),b=versionParts(local);for(let i=0;i<Math.max(a.length,b.length);i++){if((a[i]||0)>(b[i]||0))return true;if((a[i]||0)<(b[i]||0))return false}return false}
