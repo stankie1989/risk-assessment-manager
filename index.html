@@ -56,7 +56,7 @@ a{color:var(--blue)}.hidden{display:none!important}
 <div class="grid2"><div><label>Site</label><input id="site" value="Millfields Trust"></div><div><label>Building / location</label><input id="building" placeholder="e.g. Main office"></div></div>
 <div class="grid2"><div><label>Instructed by</label><input id="instructed" placeholder="Name"></div><div><label>Responsible person</label><select id="responsible"><option>Luke</option><option>Jason</option></select></div></div>
 <div class="grid2"><div><label>Other people on site</label><input id="others" placeholder="e.g. Jason / Nobody"></div><div><label>Compiled by</label><select id="compiled"><option>Luke</option><option>Jason</option></select></div></div>
-<label>Risk assessment number (if applicable)</label><input id="riskNumber" placeholder="Optional reference number">\n<label>Task location / notes</label><textarea id="siteNotes" placeholder="Access, restrictions or anything the client has mentioned..."></textarea>
+<label>Risk assessment number (if applicable)</label><input id="riskNumber" placeholder="Optional reference number"><label>Task location / notes</label><textarea id="siteNotes" placeholder="Access, restrictions or anything the client has mentioned..."></textarea>
 </div>
 <button class="primary" onclick="goHazards()">Next: review hazards →</button>
 </section>
@@ -90,7 +90,7 @@ a{color:var(--blue)}.hidden{display:none!important}
 <div class="panel"><h2>Work requirements</h2><div id="requirementsList"></div></div>
 <div class="actions"><button class="secondary" onclick="show('site')">← Back</button><button class="primary" onclick="goReview()">Next: review →</button></div>
 </section>
-\n<section id="review" class="screen">
+<section id="review" class="screen">
 <div class="steps"><span class="on">1 · Job details</span><span class="on">2 · Hazards</span><span class="on">3 · Finish</span></div>
 <h1>Ready to create?</h1><p class="sub">Check the details before generating your Excel assessment.</p>
 <div class="panel" id="reviewSummary"></div>
@@ -107,7 +107,7 @@ a{color:var(--blue)}.hidden{display:none!important}
   <button type="button" onclick="applyUpdate()">Update now</button>
 </div>
 <footer class="app-footer">
-  <span>Risk Assessment Manager v1.5.1</span>
+  <span>Risk Assessment Manager v1.5.2</span>
   <span id="updateStatus">Checking for updates…</span>
 </footer>
 <script>
@@ -242,7 +242,7 @@ window.addEventListener('beforeunload',persistDraft);
 
 // Explicitly expose controls used by the mobile interface's buttons.
 Object.assign(window,{newAssessment,show,goHome,goHazards,goEquipment,goReview,useTemplate,generateExcel,setHazardTab,addExtra,applyUpdate});
-const APP_VERSION='1.5.1';
+const APP_VERSION='1.5.2';
 let latestVersion=APP_VERSION;
 function versionParts(v){return String(v||'0').replace(/^v/i,'').split('.').map(n=>parseInt(n,10)||0)}
 function isNewer(remote,local){const a=versionParts(remote),b=versionParts(local);for(let i=0;i<Math.max(a.length,b.length);i++){if((a[i]||0)>(b[i]||0))return true;if((a[i]||0)<(b[i]||0))return false}return false}
