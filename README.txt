@@ -1,8 +1,8 @@
-Risk Assessment Manager v1.5.2
+Risk Assessment Manager v1.5.3
 
-Small visual hotfix:
-- Removed literal backslash-n text sequences from the HTML markup.
-- Kept the working buttons and assessment logic from v1.5.1.
-- Version footer and update checker now identify v1.5.2.
-
-Upload all five files to the root of the existing GitHub repository, replacing the existing versions. Saved browser data uses the same localStorage keys.
+Fixes:
+- Restored the Selected / Suggested / All hazards tabs and search box required by the hazard rendering code.
+- This resolves the failure on the "Next: review hazards" button: the previous screen markup did not contain the tab elements the JavaScript tried to update.
+- Rechecked the remaining assessment navigation targets and handlers: details -> hazards -> site -> equipment -> review -> Excel generation.
+- Exposed renderHazards for the inline search control.
+Upload all five files to the root of the existing GitHub repository, replacing existing versions.

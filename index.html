@@ -64,7 +64,12 @@ a{color:var(--blue)}.hidden{display:none!important}
 <section id="hazards" class="screen">
 <div class="steps"><span class="on">1 · Job details</span><span class="on">2 · Hazards</span><span>3 · Finish</span></div>
 <h1>Suggested hazards</h1><p class="sub">We've matched your job description to your existing hazard library. Check every suggestion.</p>
-<div id="suggestionSummary" class="chip">Suggestions based on your job</div>
+<div class="tabs">
+<button id="tabSelected" class="tab active" onclick="setHazardTab('selected')">Selected <span id="selectedCount">0</span></button>
+<button id="tabSuggested" class="tab" onclick="setHazardTab('suggested')">Suggested <span id="suggestedCount">0</span></button>
+<button id="tabAll" class="tab" onclick="setHazardTab('all')">All hazards</button>
+</div>
+<input id="hazardSearch" placeholder="Search hazards..." oninput="renderHazards()">
 <div class="panel"><div id="hazardList"></div></div>
 <div class="panel"><h2>Work activities</h2><p class="sub">Select the activities that apply.</p><div id="activityList"></div></div>
 <div class="panel"><h2>Anything else?</h2><label>Additional hazard</label><input id="extraName" placeholder="Hazard name"><label>Foreseeable risk</label><input id="extraRisk" placeholder="What could happen?"><label>Control measures</label><textarea id="extraControl" placeholder="How will the risk be controlled?"></textarea><button class="secondary" onclick="addExtra()">＋ Add hazard</button><div id="extras"></div></div>
@@ -107,7 +112,7 @@ a{color:var(--blue)}.hidden{display:none!important}
   <button type="button" onclick="applyUpdate()">Update now</button>
 </div>
 <footer class="app-footer">
-  <span>Risk Assessment Manager v1.5.2</span>
+  <span>Risk Assessment Manager v1.5.3</span>
   <span id="updateStatus">Checking for updates…</span>
 </footer>
 <script>
@@ -241,8 +246,8 @@ async function init(){
 window.addEventListener('beforeunload',persistDraft);
 
 // Explicitly expose controls used by the mobile interface's buttons.
-Object.assign(window,{newAssessment,show,goHome,goHazards,goEquipment,goReview,useTemplate,generateExcel,setHazardTab,addExtra,applyUpdate});
-const APP_VERSION='1.5.2';
+Object.assign(window,{newAssessment,show,goHome,goHazards,goEquipment,goReview,useTemplate,generateExcel,setHazardTab,renderHazards,addExtra,applyUpdate});
+const APP_VERSION='1.5.3';
 let latestVersion=APP_VERSION;
 function versionParts(v){return String(v||'0').replace(/^v/i,'').split('.').map(n=>parseInt(n,10)||0)}
 function isNewer(remote,local){const a=versionParts(remote),b=versionParts(local);for(let i=0;i<Math.max(a.length,b.length);i++){if((a[i]||0)>(b[i]||0))return true;if((a[i]||0)<(b[i]||0))return false}return false}
