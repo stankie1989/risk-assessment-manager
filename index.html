@@ -51,7 +51,7 @@ a{color:var(--blue)}.hidden{display:none!important}
 <div class="steps"><span class="on">1 · Job details</span><span>2 · Hazards</span><span>3 · Finish</span></div>
 <h1>Tell us about the job</h1><p class="sub">A few details. We'll fill in what we already know.</p>
 <div class="panel">
-function readDetails(){['jobTitle','description','site','building','instructed','responsible','compiled','others','siteNotes','riskNumber','communicationOther','welfareOther','siteInfoOther','otherTrades','otherTradesWho','toolsOther','ppeOther'].forEach(k=>{if($(k))current[k]=$(k).value.trim()});current.title=current.jobTitle;['communication','welfare','siteInfo','tools','ppe','requirements'].forEach(k=>current[k]=checkedValues(k));}
+<label>Job title *</label><input id="jobTitle" placeholder="e.g. Litter Pick-up" required>
 <label>What work will you be doing?</label><textarea id="description" placeholder="Briefly describe the task..."></textarea>
 <div class="grid2"><div><label>Site</label><input id="site" value="Millfields Trust"></div><div><label>Building / location</label><input id="building" placeholder="e.g. Main office"></div></div>
 <div class="grid2"><div><label>Instructed by</label><input id="instructed" placeholder="Name"></div><div><label>Responsible person</label><select id="responsible"><option>Luke</option><option>Jason</option></select></div></div>
@@ -107,7 +107,7 @@ function readDetails(){['jobTitle','description','site','building','instructed',
   <button type="button" onclick="applyUpdate()">Update now</button>
 </div>
 <footer class="app-footer">
-  <span>Risk Assessment Manager v1.5</span>
+  <span>Risk Assessment Manager v1.5.1</span>
   <span id="updateStatus">Checking for updates…</span>
 </footer>
 <script>
@@ -158,7 +158,7 @@ function goEquipment(){readDetails();renderArrangementForms();show('equipment')}
 function goReview(){readDetails();showReview()}
 
 function newAssessment(){current={title:'',description:'',site:'Millfields Trust',building:'',instructed:'',responsible:'Luke',compiled:'Luke',others:'',siteNotes:'',riskNumber:'',hazards:[],activities:[],extras:[],communication:[],welfare:[],siteInfo:[],tools:[],ppe:[],requirements:[]};extras=[];fillDetails();$('assessmentDate').value=dateISO();show('details')}
-function fillDetails(){['jobTitle','description','site','building','instructed','responsible','compiled','others','siteNotes','riskNumber','communicationOther','welfareOther','siteInfoOther','otherTrades','otherTradesWho','toolsOther','ppeOther'].forEach(k=>$(k).value=current[k]||'');renderArrangementForms();persistDraft()}
+function fillDetails(){['jobTitle','description','site','building','instructed','responsible','compiled','others','siteNotes','riskNumber','communicationOther','welfareOther','siteInfoOther','otherTrades','otherTradesWho','toolsOther','ppeOther'].forEach(k=>{const el=$(k);if(el)el.value=current[k]||''});renderArrangementForms();persistDraft()}
 function readDetails(){['jobTitle','description','site','building','instructed','responsible','compiled','others','siteNotes','riskNumber','communicationOther','welfareOther','siteInfoOther','otherTrades','otherTradesWho','toolsOther','ppeOther'].forEach(k=>{if($(k))current[k]=$(k).value.trim()});current.title=current.jobTitle;['communication','welfare','siteInfo','tools','ppe','requirements'].forEach(k=>current[k]=checkedValues(k));}
 function renderRecent(){let a=templates().slice(-4).reverse();$('recent').innerHTML=a.length?a.map((t,i)=>`<div class="jobrow"><div><b>${esc(t.title)}</b><small>Saved job · ${esc(t.updated||'')}</small></div><button class="secondary" onclick="useTemplate(${templates().length-1-i})">Use</button></div>`).join(''):'<p class="sub">Your saved jobs will appear here after your first assessment.</p>'}
 function renderTemplates(){let a=templates().slice().reverse();$('templateList').innerHTML=a.length?a.map((t,i)=>`<div class="jobrow"><div><b>${esc(t.title)}</b><small>${esc(t.building||t.site||'')} · Last used ${esc(t.updated||'')}</small></div><button class="secondary" onclick="useTemplate(${a.length-1-i})">Use</button></div>`).join(''):'<p class="sub">No saved jobs yet. Create an assessment and it will be saved automatically.</p>'}
@@ -242,7 +242,7 @@ window.addEventListener('beforeunload',persistDraft);
 
 // Explicitly expose controls used by the mobile interface's buttons.
 Object.assign(window,{newAssessment,show,goHome,goHazards,goEquipment,goReview,useTemplate,generateExcel,setHazardTab,addExtra,applyUpdate});
-const APP_VERSION='1.5';
+const APP_VERSION='1.5.1';
 let latestVersion=APP_VERSION;
 function versionParts(v){return String(v||'0').replace(/^v/i,'').split('.').map(n=>parseInt(n,10)||0)}
 function isNewer(remote,local){const a=versionParts(remote),b=versionParts(local);for(let i=0;i<Math.max(a.length,b.length);i++){if((a[i]||0)>(b[i]||0))return true;if((a[i]||0)<(b[i]||0))return false}return false}
