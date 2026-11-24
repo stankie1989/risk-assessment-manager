@@ -1,11 +1,13 @@
-Risk Assessment Manager v1.6.2
+Risk Assessment Manager v1.6.3
 
 Changes:
-- Other people on site checklist now includes Nobody else on site, Other colleagues on site, and Contractors / subcontractors on site.
-- Contractors/subcontractors is a tick-only option; no names are required. It exports a tick to the original Excel contractor/subcontractor field.
-- Communication / progress section is a checkbox list containing all four options from the Excel template: Daily Briefing Before Work Starts; Face To Face As Any Changes Occur; Written Work Instructions; Other.
-- Selecting Other can optionally include extra details, which are placed in the Excel Other row.
-- Removed the redundant separate contractor name-entry panel.
-- Retains previous features, single-sheet export, sign-off, date handling, version footer and 60-second update checking.
+- Typing a job title now generates an editable suggested task description. Common jobs have tailored descriptions; other titles receive a sensible editable draft.
+- Building/location is auto-filled when title or description mentions HQ, Genesis, Creykes Court or MSR. Multiple locations are included.
+- Steel Toe Caps is always selected in PPE for new and existing assessments.
+- Removed the other-colleagues name text box; colleague presence is tick-only. Contractors remain a separate tick-only option.
+- Fixed the navigation after hazards: Next: site arrangements now opens the Site screen rather than skipping directly to Equipment/PPE.
+- Site screen visibly includes the complete communication checklist and the client-awareness/site information checklist using the wording from the Excel sheet.
+- Retains the rest of V1.6.2, including single-sheet Excel export and date handling.
 
 Upload all five files to the root of the existing GitHub repository, replacing existing versions.
+All smart-filled descriptions and locations remain editable. Suggestions require review against actual site conditions.
