@@ -1,9 +1,10 @@
-Risk Assessment Manager v1.6.9
+Risk Assessment Manager v1.7.0
 
-Fix:
-- Fixed job title typing. The previous version formatted and trimmed the title during every autosave/keystroke, removing trailing spaces and preventing multi-word titles.
-- Job titles are now only converted to Title Case when the user leaves the Job Title field (blur), so spaces can be entered normally.
-- The formatted title is retained in the draft/template and Excel export.
-- All V1.6.8 features and V1.6.7 export fixes are retained.
+Changes:
+- Selecting Nobody else on site automatically adds the Lone Working hazard.
+- If Nobody else on site is later unticked and the app had auto-added Lone Working, that automatic selection is removed. A manually selected Lone Working hazard is retained.
+- Expanded task recognition and job description suggestions for blocked/unblock toilets and drains, plumbing leaks/taps/valves, toilet/urinal repairs, door repairs, and wall fixtures/shelves.
+- Unblocking toilets suggests hazards from the existing Excel hazard library, including COSHH/chemicals, toxic contaminants, hazardous waste, water, liquid spills, slippery surfaces, slips/trips, manual handling, lone working and ventilation. These remain suggestions for review, not automatic approval.
+- Existing V1.6.9 features and original Excel template preserved.
 
 Upload all five files to the root of the existing GitHub repository, replacing existing versions.

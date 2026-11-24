@@ -114,7 +114,7 @@ a{color:var(--blue)}.hidden{display:none!important}
   <button type="button" onclick="applyUpdate()">Update now</button>
 </div>
 <footer class="app-footer">
-  <span>Risk Assessment Manager v1.6.9</span>
+  <span>Risk Assessment Manager v1.7.0</span>
   <span id="updateStatus">Checking for updates…</span>
 </footer>
 <script>
@@ -122,6 +122,13 @@ const $=id=>document.getElementById(id);
 let LIB={hazards:[],activities:[],requirements:[]}, current=null, lastBlob=null, extras=[];
 const KEY='dra_manager_v1_templates';
 const rules=[
+{terms:['unblock toilet','unblock wc','blocked toilet','blocked wc','blocked urinal','unblock urinal','blocked sink','blocked drain','clear drain','drain blockage'],hazards:['COSHH / Chemicals / Hazardous Substances','Toxic Contaminants','Hazardous Waste / WEEE','Water','Liquid Spills','Slippery Surfaces','Falls On Same Level, Slips & Trips','Manual Handling','Lone Working','Inadequate Ventilation'],activities:['Drains and Guttering','Job Set-Up / Planning']},
+{terms:['toilet repair','repair toilet','replace toilet','cistern','flush valve','urinal repair','sanitary fitting'],hazards:['Water','Liquid Spills','Slippery Surfaces','Falls On Same Level, Slips & Trips','Manual Handling','Sharp Edges On Materials','Unserviceable Tools','COSHH / Chemicals / Hazardous Substances'],activities:['Drains and Guttering','Job Set-Up / Planning']},
+{terms:['tap','mixer tap','leaking pipe','water leak','plumbing','pipe repair','valve'],hazards:['Water','Liquid Spills','Slippery Surfaces','Falls On Same Level, Slips & Trips','Manual Handling','Sharp Edges On Materials','Unserviceable Tools','COSHH / Chemicals / Hazardous Substances'],activities:['Drains and Guttering','Job Set-Up / Planning']},
+{terms:['door closer','door handle','door lock','door hinge','repair door','replace door'],hazards:['Manual Handling','Impact / Crushing','Entanglement / Crush & Pinch Points','Sharp Edges On Materials','Unserviceable Tools','Falls On Same Level, Slips & Trips'],activities:['Carpentry and Joinery','Job Set-Up / Planning']},
+{terms:['shelf','bracket','curtain rail','blind fitting','wall mount','drill wall','hang picture'],hazards:['Electricity','Live Cables','Overhead Services','Dust','Flying Particles','Noise / Vibration','Falls On Same Level, Slips & Trips','Manual Handling','WAH - Ladders','WAH - Stepladders'],activities:['Drilling and Fixing','Job Set-Up / Planning']},
+{terms:['unblock toilet','unblock wc','blocked toilet','blocked wc','blocked urinal','unblock urinal','blocked sink','blocked drain','clear drain','drain blockage'],hazards:['COSHH / Chemicals / Hazardous Substances','Toxic Contaminants','Hazardous Waste / WEEE','Water','Liquid Spills','Slippery Surfaces','Falls On Same Level, Slips & Trips','Manual Handling','Lone Working','Inadequate Ventilation'],activities:['Drains and Guttering','Job Set-Up / Planning']},
+
 {terms:['ladder','stepladder','steps','height','high level','roof','gutter','light fitting'],hazards:['WAH - Falling From Height','WAH - Ladders','WAH - Stepladders','Dropped Objects','Falls On Same Level, Slips & Trips'],activities:['High Level Works Requiring Access','Lighting Works and lamp Replacement']},
 {terms:['light','lighting','electrical','socket','switch','cable','fuse','lamp'],hazards:['Electricity','Live Cables','Unserviceable Electrical Tools'],activities:['Electrical Fitting or Accessory Replacement','Lighting Works and lamp Replacement']},
 {terms:['bin','bins','waste','rubbish','litter','pick'],hazards:['Manual Handling','Falls On Same Level, Slips & Trips','Sharp Edges On Materials','Road Traffic','Snow / Ice / Mud / Water'],activities:['Bins','Cleaning','Exterior Cleaning Works']},
@@ -167,6 +174,13 @@ function makeJobDescription(title){
  const t=(title||'').trim();
  if(!t)return '';
  const low=t.toLowerCase();
+ if(/unblock|blocked/.test(low)&&/toilet|wc|urinal|drain|sink|pipe/.test(low))return 'Investigate and clear the blockage, check the sanitary fitting and surrounding area for leaks or contamination, and clean and disinfect the work area when finished.';
+ if(/toilet|wc|urinal/.test(low)&&/repair|replace|fix|flush|leak|seat|cistern|tap/.test(low))return 'Inspect and repair the toilet or sanitary fitting, isolate the water supply where necessary, manage any leaks or contaminated water, and leave the area clean and safe.';
+ if(/tap|mixer|plumbing|pipe|leak|valve/.test(low))return 'Inspect and carry out the required plumbing repair, isolate the water supply where necessary, manage water spills and test the repair before leaving the area.';
+ if(/door|door closer|hinge|handle|lock/.test(low))return 'Inspect and repair the door, ironmongery or locking mechanism, using suitable hand tools and keeping the work area clear of building users.';
+ if(/shelf|bracket|curtain rail|blind/.test(low))return 'Measure, secure and install the required fixture using suitable tools and fixings, checking for concealed services before drilling.';
+ if(/blocked|clear.*drain|drain/.test(low))return 'Investigate and clear the blockage using suitable equipment, avoiding contact with contaminated water and keeping the work area clean and safe.';
+ if(/unblock|blocked/.test(low))return 'Investigate the blockage and clear it using suitable methods, keeping the work area controlled and clean.';
  if(/litter|litter pick/.test(low))return 'Pick up litter around the buildings and surrounding areas, collecting and disposing of waste safely.';
  if(/moving furniture|move furniture|furniture move/.test(low))return 'Move furniture between the required locations, using safe manual handling techniques and suitable assistance where necessary.';
  if(/manual handling/.test(low))return 'Carry out the required manual handling tasks, using safe lifting techniques and suitable assistance where necessary.';
@@ -236,7 +250,15 @@ function goReview(){readDetails();markStepComplete('equipment');showReview();sho
 
 function newAssessment(){current={title:'',description:'',site:'',building:'',instructed:'',responsible:'Luke',compiled:'Luke',others:'',siteNotes:'',riskNumber:'',hazards:[],activities:[],extras:[],communication:[],welfare:[],siteInfo:[],tools:[],ppe:['Steel Toe Caps'],requirements:[],operativeName:'',completion:[]};extras=[];fillDetails();$('assessmentDate').value=dateISO();show('details')}
 function fillDetails(){['jobTitle','description','site','building','responsible','compiled','siteNotes','riskNumber','communicationOther','welfareOther','siteInfoOther','otherTrades','otherTradesWho','toolsOther','ppeOther'].forEach(k=>{const el=$(k);if(el)el.value=current[k]||''});if($('instructedOther'))$('instructedOther').value=current.instructedOther||'';renderArrangementForms();persistDraft()}
-function readDetails(){['jobTitle','description','site','building','instructed','instructedOther','responsible','compiled','siteNotes','riskNumber','communicationOther','welfareOther','siteInfoOther','otherTrades','otherTradesWho','toolsOther','ppeOther','operativeOther','completionSignedBy','completionComments'].forEach(k=>{if($(k))current[k]=$(k).value.trim()});current.title=current.jobTitle;current._autoDescription=current._autoDescription||'';current._autoBuilding=current._autoBuilding||'';current.operativeName=$('operativeName')?.value||current.operativeName||'';current.instructed=$('instructed')?.value||'';current.instructedOther=$('instructed')?.value==='Other'?($('instructedOther')?.value||''):'';['communication','otherPeople','welfare','siteInfo','tools','ppe','requirements','completion'].forEach(k=>current[k]=checkedValues(k));}
+function readDetails(){['jobTitle','description','site','building','instructed','instructedOther','responsible','compiled','siteNotes','riskNumber','communicationOther','welfareOther','siteInfoOther','otherTrades','otherTradesWho','toolsOther','ppeOther','operativeOther','completionSignedBy','completionComments'].forEach(k=>{if($(k))current[k]=$(k).value.trim()});current.title=current.jobTitle;current._autoDescription=current._autoDescription||'';current._autoBuilding=current._autoBuilding||'';current.operativeName=$('operativeName')?.value||current.operativeName||'';current.instructed=$('instructed')?.value||'';current.instructedOther=$('instructed')?.value==='Other'?($('instructedOther')?.value||''):'';['communication','otherPeople','welfare','siteInfo','tools','ppe','requirements','completion'].forEach(k=>current[k]=checkedValues(k));
+ const nobodySelected=(current.otherPeople||[]).includes('Nobody else on site');
+ const loneHazard='Lone Working';
+ if(nobodySelected){
+  if(!(current.hazards||[]).includes(loneHazard)){current.hazards=[...(current.hazards||[]),loneHazard];current._loneWorkingAutoAdded=true;}
+ }else if(current._loneWorkingAutoAdded){
+  current.hazards=(current.hazards||[]).filter(h=>h!==loneHazard);
+  current._loneWorkingAutoAdded=false;
+ }}
 function renderRecent(){let a=templates().slice(-4).reverse();$('recent').innerHTML=a.length?a.map((t,i)=>`<div class="jobrow"><div><b>${esc(t.title)}</b><small>Saved job · ${esc(t.updated||'')}</small></div><button class="secondary" onclick="useTemplate(${templates().length-1-i})">Use</button></div>`).join(''):'<p class="sub">Your saved jobs will appear here after your first assessment.</p>'}
 function renderTemplates(){let a=templates().slice().reverse();$('templateList').innerHTML=a.length?a.map((t,i)=>`<div class="jobrow"><div><b>${esc(t.title)}</b><small>${esc(t.building||t.site||'')} · Last used ${esc(t.updated||'')}</small></div><button class="secondary" onclick="useTemplate(${a.length-1-i})">Use</button></div>`).join(''):'<p class="sub">No saved jobs yet. Create an assessment and it will be saved automatically.</p>'}
 function useTemplate(i){let a=templates(),t=a[i];if(!t)return;current=JSON.parse(JSON.stringify(t));current.hazards=t.hazards||[];current.activities=t.activities||[];extras=current.extras||[];current.date=dateISO();fillDetails();$('assessmentDate').value=dateISO();persistDraft();show('details')}
@@ -371,7 +393,7 @@ window.addEventListener('beforeunload',persistDraft);
 
 // Explicitly expose controls used by the mobile interface's buttons.
 Object.assign(window,{newAssessment,show,goHome,goHazards,goSite,goEquipment,goReview,navigateStep,useTemplate,generateExcel,setHazardTab,renderHazards,addExtra,applyUpdate});
-const APP_VERSION='1.6.9';
+const APP_VERSION='1.7.0';
 let latestVersion=APP_VERSION;
 function versionParts(v){return String(v||'0').replace(/^v/i,'').split('.').map(n=>parseInt(n,10)||0)}
 function isNewer(remote,local){const a=versionParts(remote),b=versionParts(local);for(let i=0;i<Math.max(a.length,b.length);i++){if((a[i]||0)>(b[i]||0))return true;if((a[i]||0)<(b[i]||0))return false}return false}
