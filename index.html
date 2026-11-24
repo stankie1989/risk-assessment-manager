@@ -79,7 +79,7 @@ a{color:var(--blue)}.hidden{display:none!important}
 </section>
 
 
-<section id="site" class="screen">
+<section id="site-arrangements" class="screen">
 <div class="steps"><span class="on">1 · Details</span><span class="on">2 · Hazards</span><span class="on">3 · Site</span><span>4 · Equipment</span><span>5 · Finish</span></div>
 <h1>Site arrangements</h1><p class="sub">Select the arrangements that apply to this job.</p>
 <div class="panel"><h2>How will everyone be updated about the progress / details of the job?</h2><div id="communicationList"></div><label>Other communication details (optional)</label><input id="communicationOther" placeholder="Add details if needed"></div>
@@ -95,7 +95,7 @@ a{color:var(--blue)}.hidden{display:none!important}
 <div class="panel"><h2>PPE required</h2><div id="ppeList"></div><label>Other PPE</label><input id="ppeOther" placeholder="Specify"></div>
 <div class="panel"><h2>Work requirements</h2><div id="requirementsList"></div></div>
 <div class="panel"><h2>Job completion</h2><p class="sub">These can be completed when the job is finished. Leave unticked until confirmed.</p><div id="completionList"></div><label>Completion sign-off by</label><input id="completionSignedBy" placeholder="Name (complete after the work)"><label>Completion comments</label><textarea id="completionComments" placeholder="Optional comments"></textarea></div>
-<div class="actions"><button class="secondary" onclick="show('site')">← Back</button><button class="primary" onclick="goReview()">Next: review →</button></div>
+<div class="actions"><button class="secondary" onclick="show('site-arrangements')">← Back</button><button class="primary" onclick="goReview()">Next: review →</button></div>
 </section>
 <section id="review" class="screen">
 <div class="steps"><span class="on">1 · Job details</span><span class="on">2 · Hazards</span><span class="on">3 · Finish</span></div>
@@ -114,7 +114,7 @@ a{color:var(--blue)}.hidden{display:none!important}
   <button type="button" onclick="applyUpdate()">Update now</button>
 </div>
 <footer class="app-footer">
-  <span>Risk Assessment Manager v1.6.3</span>
+  <span>Risk Assessment Manager v1.6.4</span>
   <span id="updateStatus">Checking for updates…</span>
 </footer>
 <script>
@@ -230,7 +230,7 @@ function applySmartSuggestions(){
 function checkedValues(key){return Array.from(document.querySelectorAll('[data-check="'+key+'"]:checked')).map(x=>x.value)}
 function drawChecks(key){let el=$(key+'List');if(!el)return;el.innerHTML=CHECKS[key].map(v=>`<label class="checkrow"><input data-check="${key}" type="checkbox" value="${attr(v)}" ${(current[key]||[]).includes(v)?'checked':''} onchange="if('${key}'==='otherPeople'&&this.checked){document.querySelectorAll('[data-check=otherPeople]').forEach(x=>{if(x!==this&&((this.value==='Nobody else on site')||(x.value==='Nobody else on site')))x.checked=false})}persistDraft()"><span><b>${esc(v)}</b></span></label>`).join('')}
 function renderArrangementForms(){Object.keys(CHECKS).forEach(drawChecks);drawChecks('otherPeople');['communicationOther','welfareOther','siteInfoOther','otherTrades','otherTradesWho','toolsOther','ppeOther','operativeOther','operativeName','instructedOther','completionSignedBy','completionComments'].forEach(k=>{if($(k))$(k).value=current[k]||''});drawChecks('completion');if($('operativeName'))$('operativeName').value=current.operativeName||'';if($('operativeOtherWrap'))$('operativeOtherWrap').hidden=true;if($('instructed'))$('instructed').value=(current.instructedOther?'Other':(current.instructed||''));if($('instructedOtherWrap'))$('instructedOtherWrap').hidden=$('instructed')?.value!=='Other'}
-function goSite(){readDetails();applySmartSuggestions();renderArrangementForms();show('site')}
+function goSite(){readDetails();applySmartSuggestions();renderArrangementForms();show('site-arrangements')}
 function goEquipment(){readDetails();applySmartSuggestions();renderArrangementForms();show('equipment')}
 function goReview(){readDetails();showReview()}
 
@@ -337,13 +337,13 @@ async function init(){
  try{let r=await fetch('./library.json');LIB=await r.json()}catch(e){alert('Could not load the hazard library. Please run the app from its web address, not by opening the HTML file directly.')}
  templates();renderRecent();$('assessmentDate').value=dateISO();
  document.querySelectorAll('input,textarea,select').forEach(el=>{el.addEventListener('input',()=>{if(el.id==='jobTitle'||el.id==='description')smartFillJobDetails(el.id);persistDraft()});el.addEventListener('change',()=>{if(el.id==='operativeName'&&$('operativeOtherWrap'))$('operativeOtherWrap').hidden=true;if(el.id==='instructed'&&$('instructedOtherWrap'))$('instructedOtherWrap').hidden=el.value!=='Other';persistDraft()})});
- try{let saved=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');if(saved&&saved.current){current=saved.current;extras=saved.extras||current.extras||[];fillDetails();$('assessmentDate').value=saved.assessmentDate||dateISO();let target=localStorage.getItem(SCREEN_KEY)||'home';if(['details','hazards','site','equipment','review','home','templates'].includes(target)){if(target==='hazards')renderHazards();if(target==='site'||target==='equipment')renderArrangementForms();if(target==='review')showReview();show(target)}}}catch(e){}
+ try{let saved=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');if(saved&&saved.current){current=saved.current;extras=saved.extras||current.extras||[];fillDetails();$('assessmentDate').value=saved.assessmentDate||dateISO();let target=localStorage.getItem(SCREEN_KEY)||'home';if(['details','hazards','site-arrangements','site','equipment','review','home','templates'].includes(target)){if(target==='hazards')renderHazards();if(target==='site'||target==='site-arrangements'||target==='equipment')renderArrangementForms();if(target==='review')showReview();show(target==='site'?'site-arrangements':target)}}}catch(e){}
 }
 window.addEventListener('beforeunload',persistDraft);
 
 // Explicitly expose controls used by the mobile interface's buttons.
 Object.assign(window,{newAssessment,show,goHome,goHazards,goSite,goEquipment,goReview,useTemplate,generateExcel,setHazardTab,renderHazards,addExtra,applyUpdate});
-const APP_VERSION='1.6.3';
+const APP_VERSION='1.6.4';
 let latestVersion=APP_VERSION;
 function versionParts(v){return String(v||'0').replace(/^v/i,'').split('.').map(n=>parseInt(n,10)||0)}
 function isNewer(remote,local){const a=versionParts(remote),b=versionParts(local);for(let i=0;i<Math.max(a.length,b.length);i++){if((a[i]||0)>(b[i]||0))return true;if((a[i]||0)<(b[i]||0))return false}return false}
