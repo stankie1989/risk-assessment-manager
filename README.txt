@@ -1,12 +1,12 @@
-Risk Assessment Manager v1.6.4
+Risk Assessment Manager v1.6.6
 
-Critical navigation fix:
-- Renamed the Site Arrangements screen ID to site-arrangements to avoid a duplicate DOM ID with the Site text input on the job details screen.
-- Updated the Hazards -> Site Arrangements button, Equipment -> Back button, and saved-screen restoration.
-- Existing saved drafts that remember the old 'site' screen are migrated to 'site-arrangements' when reopened.
-- No assessment fields, saved templates, hazard data or Excel template were intentionally changed.
+Changes:
+- Navigation bar is clickable for sections already completed. Future sections remain disabled until the user reaches them in order.
+- Clicking a completed section saves current edits and returns to that section; users can continue forward.
+- Building Name is blank by default on new assessments.
+- Building Name offers suggestions: HQ, Genesis, Creykes Court and MSR, while allowing other building names to be typed.
+- Automatic building detection populates Building Name, not Unit Number.
+- Unit Number is separate; its example no longer includes HQ.
+- Existing templates and other features retained.
 
-Validation:
-- JavaScript syntax checked.
-- All screen navigation targets and duplicate HTML IDs checked.
-- All five package files included.
+Upload all five files to the root of the existing GitHub repository, replacing existing versions.
