@@ -22,6 +22,10 @@ label{display:block;font-size:16px;font-weight:650;margin:15px 0 7px}input,texta
 .actions{display:flex;gap:10px;margin-top:18px}.actions button{flex:1}
 a{color:var(--blue)}.hidden{display:none!important}
 @media(max-width:520px){main{padding:16px 14px 34px}.grid2{grid-template-columns:1fr}.tiles{gap:10px}.tile{min-height:124px;padding:16px}h1{font-size:27px}h2{font-size:21px}.tile b{font-size:18px}.tile span{font-size:14px}}
+
+.app-footer{max-width:760px;margin:0 auto;padding:16px 18px 26px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--line)}
+.update-notice{position:fixed;left:12px;right:12px;bottom:14px;z-index:20;max-width:720px;margin:auto;background:#17385e;color:white;padding:12px 14px;border-radius:13px;box-shadow:0 5px 24px #0003;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px}
+.update-notice[hidden]{display:none}.update-notice button{background:white;color:#17385e;padding:9px 12px;font-size:14px;white-space:nowrap}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
 </head>
@@ -98,6 +102,14 @@ function readDetails(){['jobTitle','description','site','building','instructed',
 <div class="panel" style="text-align:center;padding:30px 18px"><div style="font-size:42px">✓</div><h1>Assessment created</h1><p class="sub">Your Excel file has been generated and your job has been saved for next time.</p><button class="green" id="downloadAgain">Download Excel</button><button class="secondary" style="width:100%;margin-top:10px" onclick="show('home')">Back to home</button></div>
 </section>
 </main>
+<div id="updateNotice" class="update-notice" hidden>
+  <span>A newer version is available.</span>
+  <button type="button" onclick="applyUpdate()">Update now</button>
+</div>
+<footer class="app-footer">
+  <span>Risk Assessment Manager v1.5</span>
+  <span id="updateStatus">Checking for updates…</span>
+</footer>
 <script>
 const $=id=>document.getElementById(id);
 let LIB={hazards:[],activities:[],requirements:[]}, current=null, lastBlob=null, extras=[];
@@ -227,6 +239,36 @@ async function init(){
  try{let saved=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');if(saved&&saved.current){current=saved.current;extras=saved.extras||current.extras||[];fillDetails();$('assessmentDate').value=saved.assessmentDate||dateISO();let target=localStorage.getItem(SCREEN_KEY)||'home';if(['details','hazards','site','equipment','review','home','templates'].includes(target)){if(target==='hazards')renderHazards();if(target==='site'||target==='equipment')renderArrangementForms();if(target==='review')showReview();show(target)}}}catch(e){}
 }
 window.addEventListener('beforeunload',persistDraft);
+
+// Explicitly expose controls used by the mobile interface's buttons.
+Object.assign(window,{newAssessment,show,goHome,goHazards,goEquipment,goReview,useTemplate,generateExcel,setHazardTab,addExtra,applyUpdate});
+const APP_VERSION='1.5';
+let latestVersion=APP_VERSION;
+function versionParts(v){return String(v||'0').replace(/^v/i,'').split('.').map(n=>parseInt(n,10)||0)}
+function isNewer(remote,local){const a=versionParts(remote),b=versionParts(local);for(let i=0;i<Math.max(a.length,b.length);i++){if((a[i]||0)>(b[i]||0))return true;if((a[i]||0)<(b[i]||0))return false}return false}
+async function checkForUpdate(){
+  try{
+    const response=await fetch('./version.json?check='+Date.now(),{cache:'no-store'});
+    if(!response.ok)throw new Error('version check unavailable');
+    const data=await response.json();
+    latestVersion=String(data.version||APP_VERSION);
+    if(isNewer(latestVersion,APP_VERSION)){
+      $('updateNotice').hidden=false;
+      $('updateStatus').textContent='Update available';
+    }else{
+      $('updateNotice').hidden=true;
+      $('updateStatus').textContent='Up to date';
+    }
+  }catch(e){$('updateStatus').textContent='Update check unavailable'}
+}
+function applyUpdate(){
+  // Query-string version busts the cached page while preserving localStorage data.
+  const url=new URL(window.location.href);
+  url.searchParams.set('app-version',latestVersion);
+  window.location.replace(url.toString());
+}
+checkForUpdate();
+setInterval(checkForUpdate,60000);
 init();
 </script>
 </body></html>
