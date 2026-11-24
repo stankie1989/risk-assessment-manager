@@ -1,0 +1,530 @@
+{
+  "hazards": [
+    {
+      "row": 75,
+      "name": "Adverse Environmental Temperature",
+      "risk": "Possibility of over exposure to extreme heat / cold",
+      "control": "Operatives to wear suitable PPE, check all materials, tools and plant equipment prior to use and ensure that adequate breaks are taken."
+    },
+    {
+      "row": 76,
+      "name": "Asbestos",
+      "risk": "Long term breathing difficulties",
+      "control": "Operatives will check the demolition / refurbishment survey prior to commencing works, and will not touch or disturb any part of any identified Asbestos. Our engineers have undertaken an Asbestos Awareness course."
+    },
+    {
+      "row": 77,
+      "name": "Changes In Floor Levels",
+      "risk": "Slips, Trips & Falls",
+      "control": "Operatives to ensure they are aware of their surroundings and use handrails whilst using stairs"
+    },
+    {
+      "row": 78,
+      "name": "Cold / Hot Surfaces",
+      "risk": "Possible injury to hands / skin",
+      "control": "Operatives to wear safety gloves / suitable PPE"
+    },
+    {
+      "row": 79,
+      "name": "Confined Spaces",
+      "risk": "Inadequate access / egress routes",
+      "control": "Confined space supervisor to devise safe working system. Possible emergency rescue equipment to be readily available. No lone working"
+    },
+    {
+      "row": 80,
+      "name": "COSHH / Chemicals / Hazardous Substances",
+      "risk": "Inhalation of fumes / contact with skin",
+      "control": "Operatives to ensure the corresponding COSHH Assessment, MSDS and PPE are available and read prior to using the substance"
+    },
+    {
+      "row": 81,
+      "name": "Dropped Objects",
+      "risk": "Injury to persons / Damage to property",
+      "control": "Install an exclusion zone below the working area"
+    },
+    {
+      "row": 82,
+      "name": "Dust",
+      "risk": "Inhalation of foreign bodies",
+      "control": "Dampen down the area to act as dust suppression. Installation of forced exhaust / ventilation. Correct RPE to be utilised"
+    },
+    {
+      "row": 83,
+      "name": "Electricity",
+      "risk": "Electrocution",
+      "control": "All engineers to have proven competence and work to 18th Edition standards. Correct isolation and locking off procedures to be followed (Bulletin 78, LOTOTO etc). NO LIVE WORKING."
+    },
+    {
+      "row": 84,
+      "name": "Entanglement / Crush & Pinch Points",
+      "risk": "Possible injury to hands / skin",
+      "control": "Operatives to ensure guarding is in place and the equipment is correctly isolated and locked off"
+    },
+    {
+      "row": 85,
+      "name": "Extreme Hot / Cold Liquids",
+      "risk": "Possible injury to hands / skin",
+      "control": "Operatives to wear suitable PPE / cover all bare skin areas"
+    },
+    {
+      "row": 86,
+      "name": "Falls On Same Level, Slips & Trips",
+      "risk": "Slips, Trips & Falls",
+      "control": "Operatives to ensure they are aware of their surroundings and where necessary provide warning signage"
+    },
+    {
+      "row": 87,
+      "name": "Flammable Materials / Substances",
+      "risk": "Fire / explosion",
+      "control": "Operatives to remove or cover the associated materials / substances if undertaking hot works. Fire extinguishers to be available and serviced"
+    },
+    {
+      "row": 88,
+      "name": "Flying Particles",
+      "risk": "Injury to persons / Damage to property",
+      "control": "Operatives to wear correct PPE and where possible cover the surrounding area"
+    },
+    {
+      "row": 89,
+      "name": "Gas",
+      "risk": "Explosion / injury to face & hands",
+      "control": "All existing services to be completely isolated before work commences."
+    },
+    {
+      "row": 90,
+      "name": "Hazardous Waste / WEEE",
+      "risk": "Injury to persons / Damage to environment",
+      "control": "Correct spill kits and PPE to be utilised. Redundant materials to be recycled correctly"
+    },
+    {
+      "row": 91,
+      "name": "Heat / Hot Works",
+      "risk": "Ignition of flammable substances",
+      "control": "Engineers to clear or cover the area and apply for all permits prior to start of works. Fire extinguishers to be available and serviced"
+    },
+    {
+      "row": 92,
+      "name": "High Winds",
+      "risk": "Materials / tools / persons swinging uncontrollably",
+      "control": "All works to be suspended in winds exceeding 28mph / 12.5m/s"
+    },
+    {
+      "row": 94,
+      "name": "Impact / Crushing",
+      "risk": "Injury to hands / body parts",
+      "control": "Operatives to ensure guarding is in place and the equipment is correctly isolated and locked off"
+    },
+    {
+      "row": 95,
+      "name": "Inadequate Ventilation",
+      "risk": "Inhalation of fumes / Intoxication",
+      "control": "Forced ventilation and gas monitors to be installed. Possible emergency rescue equipment to be available"
+    },
+    {
+      "row": 96,
+      "name": "Lifting Operations",
+      "risk": "Injury to persons / property from falling materials",
+      "control": "Only competent persons to undertake any lifting tasks. Clearly mark out & barrier off working area."
+    },
+    {
+      "row": 97,
+      "name": "Liquid Fuels",
+      "risk": "Injury to persons / Damage to environment",
+      "control": "COSHH details to be gained prior to use. Correct spill kits, drip trays and PPE to be utilised."
+    },
+    {
+      "row": 98,
+      "name": "Liquid Spills",
+      "risk": "Injury to persons / Damage to environment",
+      "control": "Spill kits to be utilised and disposed of correctly"
+    },
+    {
+      "row": 99,
+      "name": "Live Cables",
+      "risk": "Electrocution",
+      "control": "Correct isolation and locking off procedures to be followed and undertaken prior to works commencing. NO LIVE WORKING."
+    },
+    {
+      "row": 100,
+      "name": "Lone Working",
+      "risk": "No one else in attendance if emergency occurs",
+      "control": "Operatives to devise a clear method of communication during works. Operatives to make contact at regular intervals and discuss working schedule."
+    },
+    {
+      "row": 101,
+      "name": "Manual Handling",
+      "risk": "Injury from incorrect procedures",
+      "control": "Mechanical aids to be utilised, where possible. Task, Individual, Load & Environment (T.I.L.E) procedures to be followed."
+    },
+    {
+      "row": 102,
+      "name": "Mobile Plant / Vehicles / Equipment",
+      "risk": "Bodily injury from collision with site plant",
+      "control": "Barrier off working area. Inform chargehand of activities that are due to take place. Correct levels of PPE protection."
+    },
+    {
+      "row": 103,
+      "name": "No Kickboards",
+      "risk": "Injury to persons / property from falling materials",
+      "control": "Clearly mark out & barrier off working area. Install an exclusion zone below the working area"
+    },
+    {
+      "row": 104,
+      "name": "Noise / Vibration",
+      "risk": "Long term hearing damage. Possible white finger",
+      "control": "Operatives to wear suitable ear protection / PPE and where possible use remotely controlled plant / equipment / tools"
+    },
+    {
+      "row": 105,
+      "name": "Non-Hazardous Waste",
+      "risk": "Injury to persons / Damage to environment",
+      "control": "Redundant materials to be recycled correctly"
+    },
+    {
+      "row": 106,
+      "name": "Open Blade Knife",
+      "risk": "Cuts to hands / body parts",
+      "control": "Close blade and remove from work area when not in use. Utilise alternative cutting tools or pre-cut / manufactured materials"
+    },
+    {
+      "row": 107,
+      "name": "Open Edges Not Adequately Protected / No Handrails",
+      "risk": "Possible falls",
+      "control": "Temporary handrails to be installed or fall resist protection worn"
+    },
+    {
+      "row": 108,
+      "name": "Openings / Holes Not Identified Or Protected",
+      "risk": "Possible falls",
+      "control": "Cover holes with temporary coverings or barrier off the surrounding area"
+    },
+    {
+      "row": 109,
+      "name": "Other Workers / Sub-Contractors",
+      "risk": "Un-identified / Un-controlled works",
+      "control": "Co-ordination of all works to be undertaken"
+    },
+    {
+      "row": 110,
+      "name": "Overhead Services",
+      "risk": "Damage to services",
+      "control": "Operatives to ensure they are aware of their surroundings and where necessary correctly isolate the services"
+    },
+    {
+      "row": 111,
+      "name": "Pesticides",
+      "risk": "Ingestion of hazardous substance / contact with skin",
+      "control": "Operatives to wear appropriate gloves and wash hands after all tasks. Operatives to ensure the corresponding COSHH Assessment, MSDS and PPE are available and adhered to"
+    },
+    {
+      "row": 112,
+      "name": "Poor Ergonomics",
+      "risk": "Strains from repetitive, bending, stooping & kneeling",
+      "control": "Operatives to avoid repetitive / sustained working, take regular breaks and use knee pads or kneeling mats where appropriate"
+    },
+    {
+      "row": 113,
+      "name": "Poor Housekeeping",
+      "risk": "Slips, Trips & Falls",
+      "control": "Ensure the correct routing of extension leads and the correct storage of materials and tools"
+    },
+    {
+      "row": 114,
+      "name": "Poor Light / Visibility",
+      "risk": "Slips, Trips & Falls",
+      "control": "Adequate temporary lighting to be in place whilst working"
+    },
+    {
+      "row": 115,
+      "name": "Protruding Objects",
+      "risk": "Injury to persons / Damage to property",
+      "control": "Operatives to ensure they are aware of their surroundings, if possible, remove the object, or where necessary provide warning signage"
+    },
+    {
+      "row": 116,
+      "name": "Residue In \"Empty\" Tanks Or Containers",
+      "risk": "Cross contamination using unidentified materials",
+      "control": "All containers to be correctly labelled, secured and where necessary, the contents disposed of correctly"
+    },
+    {
+      "row": 117,
+      "name": "Restricted Access & Egress",
+      "risk": "Inadequate emergency evacuation procedures",
+      "control": "Emergency evacuation procedures to be devised prior to works commencing. Possible emergency rescue equipment to be readily available. No lone working"
+    },
+    {
+      "row": 118,
+      "name": "Road Traffic",
+      "risk": "Operatives struck by moving vehicles",
+      "control": "Operatives to remain within the designated pedestrian walkways and wear hi-visibility clothing"
+    },
+    {
+      "row": 119,
+      "name": "Sharp Edges On Materials",
+      "risk": "Cuts To Hands / Skin",
+      "control": "Operatives to wear gloves or use mechanical aids"
+    },
+    {
+      "row": 120,
+      "name": "Site Vehicles / Plant",
+      "risk": "Operatives struck by moving machinery",
+      "control": "Operatives to remain within the designated pedestrian walkways and wear hi-visibility clothing"
+    },
+    {
+      "row": 121,
+      "name": "Slippery Surfaces",
+      "risk": "Slips, Trips & Falls",
+      "control": "Operatives to ensure they are aware of their surroundings. If possible, cover the floor with non slip material. Use correct levels of PPE protection"
+    },
+    {
+      "row": 122,
+      "name": "Snow / Ice / Mud / Water",
+      "risk": "Slips, Trips & Falls",
+      "control": "Operatives to ensure they are aware of their surroundings. If possible, cover the floor with non slip material. Use correct levels of PPE protection"
+    },
+    {
+      "row": 123,
+      "name": "Solvents",
+      "risk": "Ingestion of hazardous substance / contact with skin",
+      "control": "Operatives to wear appropriate gloves and wash hands after all tasks. Operatives to ensure the corresponding COSHH Assessment, MSDS and PPE are available and adhered to"
+    },
+    {
+      "row": 125,
+      "name": "Steam",
+      "risk": "Burns to skin / hands",
+      "control": "Operatives to ensure they are aware of their surroundings. Use correct levels of PPE protection / cover all bare skin areas"
+    },
+    {
+      "row": 126,
+      "name": "Stored Energy - Release Of Pneumatic / Hydraulic Energy",
+      "risk": "Unintentional / Un-controlled release, injury to persons",
+      "control": "Trained and competent personnel. Systems drained / de-pressurised and isolated prior to work commencing."
+    },
+    {
+      "row": 127,
+      "name": "Stored Energy - Release Of Potential Energy",
+      "risk": "Electrocution / Entanglement",
+      "control": "Correct isolation and locking off procedures to be followed (Bulletin 78, LOTOTO etc)"
+    },
+    {
+      "row": 128,
+      "name": "Surfaces Not Capable Of Supporting A Load",
+      "risk": "Injury to persons / Damage to property",
+      "control": "No works to be undertaken without sufficient supporting temporary platforms being in place."
+    },
+    {
+      "row": 129,
+      "name": "Toxic Contaminants",
+      "risk": "Ingestion of hazardous substance / contact with skin",
+      "control": "Operatives to wear appropriate gloves and wash hands after all tasks. Operatives to ensure the corresponding COSHH Assessment, MSDS and PPE are available and adhered to"
+    },
+    {
+      "row": 130,
+      "name": "Unguarded Machinery",
+      "risk": "Entrapment from moving parts",
+      "control": "Avoid any unnecessary work in close proximity to unguarded moving machinery"
+    },
+    {
+      "row": 131,
+      "name": "Unserviceable Electrical Tools",
+      "risk": "Electrocution / injury to eyes / hands.",
+      "control": "Calibration certification will be checked prior to use. All damaged / faulty equipment will be removed from service until replaced or repaired. All Electrical Tools Are PAT Tested"
+    },
+    {
+      "row": 132,
+      "name": "Unserviceable Lifting Accessories",
+      "risk": "Injury to persons / Damage to property",
+      "control": "A visual inspection will occur before any operation takes place. All damaged / faulty equipment will be removed from service until replaced or repaired"
+    },
+    {
+      "row": 133,
+      "name": "Unserviceable Tools",
+      "risk": "Injury to persons / Damage to property",
+      "control": "A visual inspection will occur before any operation takes place. All damaged / faulty equipment will be removed from service until replaced or repaired"
+    },
+    {
+      "row": 134,
+      "name": "Vapours / Fumes",
+      "risk": "Inhalation of fumes / contact with skin",
+      "control": "Operatives to ensure the corresponding COSHH Assessment, MSDS and PPE are available and adhered to. Use correct levels of PPE protection / cover all bare skin areas"
+    },
+    {
+      "row": 135,
+      "name": "WAH - Falling From Height",
+      "risk": "Injury due to falling / incorrect operation.",
+      "control": "Operatives to ensure they are aware of their surroundings. A visual inspection of any equipment to be utilised will occur before any operation takes place. Rescue plans to be devised and discussed prior to works"
+    },
+    {
+      "row": 136,
+      "name": "WAH - Fixed Scaffolding",
+      "risk": "Injury due to falling / incorrect operation.",
+      "control": "A visual inspection of the equipment will occur before any operation takes place. All operators are competent / trained. Operatives to ensure Scafftags are utilised and in date"
+    },
+    {
+      "row": 137,
+      "name": "WAH - Ladders",
+      "risk": "Injury due to falling / incorrect operation.",
+      "control": "Visual inspections of ladders will occur before any works occur. Operatives will ensure the area is clear before positioning the ladder. Maintain three points of contact. The ladder will be used for access purposes only."
+    },
+    {
+      "row": 138,
+      "name": "WAH - MEWP\u2019s",
+      "risk": "Injury due to falling / incorrect operation.",
+      "control": "A visual inspection of the equipment will occur before any operation takes place. All operators are IPAF trained."
+    },
+    {
+      "row": 139,
+      "name": "WAH - Mobile Scaffold Tower",
+      "risk": "Injury due to falling / incorrect operation.",
+      "control": "A visual inspection of the equipment will occur before any operation takes place. All operators are PASMA trained."
+    },
+    {
+      "row": 140,
+      "name": "WAH - Podiums",
+      "risk": "Injury due to falling / incorrect operation.",
+      "control": "Visual inspections of equipment will occur before any works occur. Operatives will ensure the area is clear from debris / slippery surfaces before using the podiums."
+    },
+    {
+      "row": 141,
+      "name": "WAH - Stepladders",
+      "risk": "Injury due to falling / incorrect operation.",
+      "control": "Visual inspections of equipment will occur before any works occur. Operatives will ensure the area is clear from debris / slippery surfaces before using the steps. The steps will be used for un-sustained low level working."
+    },
+    {
+      "row": 142,
+      "name": "Water",
+      "risk": "Floor and area can become slippery when wet",
+      "control": "Operatives to ensure they are aware of their surroundings. If possible, cover the floor with non slip material, if there is a chance of spills. Use correct levels of PPE protection"
+    },
+    {
+      "row": 143,
+      "name": "Weather",
+      "risk": "External work",
+      "control": "All works to be suspended in high winds and correct levels of PPE will be utilised. If possible, cover the floor with non slip material, if there mud / water ands leaves present."
+    },
+    {
+      "row": 144,
+      "name": "Welding",
+      "risk": "Ignition of flammable substances",
+      "control": "Engineers to clear or cover the area and apply for all permits prior to start of works. Fire extinguishers to be available and serviced"
+    },
+    {
+      "row": 145,
+      "name": "Workers Out Of View / Distance Between Workers",
+      "risk": "Lack of communication if emergency occurs",
+      "control": "Operatives to devise a clear method of communication during works. Operatives to make contact at regular intervals and discuss working schedule."
+    },
+    {
+      "row": 146,
+      "name": "Working Over A Handrail",
+      "risk": "Injury to persons / damage to property",
+      "control": "Install an exclusion zone below the works. Operatives to wear a full body safety harness c/w fall resist lanyard attached to a suitable anchor point prior to works. Tools to be tethered to handrail."
+    },
+    {
+      "row": 147,
+      "name": "Working Over A Void",
+      "risk": "Injury due to falling",
+      "control": "Install temporary boarding / covers over the void. Operatives to wear a full body safety harness c/w fall resist lanyard attached to a suitable anchor point prior to works. Tools to be tethered."
+    },
+    {
+      "row": 148,
+      "name": "Working Over The Top Of Others",
+      "risk": "Injury to persons below",
+      "control": "Install an exclusion zone below the works. No persons to enter the exclusion zone whilst operatives are working above unless protective sheeting / netting is installed."
+    },
+    {
+      "row": 149,
+      "name": "Working Under Others",
+      "risk": "Injury to Operatives",
+      "control": "Co-ordination of all works to be undertaken. Protective sheeting / netting to be installed prior to works"
+    }
+  ],
+  "activities": [
+    {
+      "row": 46,
+      "name": "Job Set-Up / Planning"
+    },
+    {
+      "row": 47,
+      "name": "Electrical Fitting or Accessory Replacement"
+    },
+    {
+      "row": 48,
+      "name": "Lighting Works and lamp Replacement"
+    },
+    {
+      "row": 49,
+      "name": "High Level Works Requiring Access"
+    },
+    {
+      "row": 50,
+      "name": "Drilling and Fixing"
+    },
+    {
+      "row": 51,
+      "name": "Painting and Preparation"
+    },
+    {
+      "row": 52,
+      "name": "Investigating Water Ingress"
+    },
+    {
+      "row": 53,
+      "name": "Leaks and Flooding"
+    },
+    {
+      "row": 54,
+      "name": "Carpentry and Joinery"
+    },
+    {
+      "row": 55,
+      "name": "Exterior Cleaning Works"
+    },
+    {
+      "row": 56,
+      "name": "Drains and Guttering"
+    },
+    {
+      "row": 57,
+      "name": "Roofing Works"
+    },
+    {
+      "row": 58,
+      "name": "Bins"
+    }
+  ],
+  "requirements": [
+    {
+      "row": 65,
+      "name": "Use Of Power Tools"
+    },
+    {
+      "row": 66,
+      "name": "Working From Mobile Scaffold Tower"
+    },
+    {
+      "row": 67,
+      "name": "Working On Fixed Scaffold"
+    },
+    {
+      "row": 68,
+      "name": "Working Off A Ladder / Stepladders / Podium"
+    },
+    {
+      "row": 69,
+      "name": "Drilling or Other Noisy Works"
+    },
+    {
+      "row": 70,
+      "name": "Cutting & Grinding"
+    },
+    {
+      "row": 71,
+      "name": "Use Of Hand Tools / Spanners / Pipe Wrench"
+    },
+    {
+      "row": 72,
+      "name": "Use of Specialist Hired Equipment"
+    }
+  ]
+}
