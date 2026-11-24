@@ -17,7 +17,7 @@ button{border:0;border-radius:12px;padding:13px 16px;font-size:17px;font-weight:
 label{display:block;font-size:16px;font-weight:650;margin:15px 0 7px}input,textarea,select{width:100%;padding:13px 12px;border:1px solid #cbd7e4;border-radius:10px;background:#fff;font:inherit;font-size:17px;color:var(--ink)}textarea{min-height:82px;resize:vertical}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.steps{display:flex;justify-content:space-between;color:var(--muted);font-size:14px;margin:5px 0 18px}.steps span{flex:1;text-align:center;padding:8px 2px;border-bottom:3px solid var(--line)}.steps .on{color:var(--blue);border-color:var(--blue);font-weight:700}
 .suggestion{display:flex;align-items:flex-start;gap:10px;padding:13px 0;border-bottom:1px solid var(--line)}.suggestion:last-child{border:0}.suggestion input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--blue)}.suggestion b{display:block;font-size:16px}.suggestion small{display:block;color:var(--muted);font-size:14px;line-height:1.5;margin-top:3px}
-.chip{display:inline-block;background:#e9f4ed;color:#126c3a;padding:5px 8px;border-radius:99px;font-size:13px;font-weight:700;margin:0 0 10px}
+.tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin:12px 0}.tab{background:#e9eff6;color:var(--navy);padding:11px 6px;font-size:14px}.tab.active{background:var(--blue);color:white}.checkrow{display:flex;align-items:flex-start;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.checkrow input{width:21px;height:21px;margin:2px 0 0;accent-color:var(--blue)}.checkrow span{flex:1}.checkrow b{display:block;font-size:16px}.chip{display:inline-block;background:#e9f4ed;color:#126c3a;padding:5px 8px;border-radius:99px;font-size:13px;font-weight:700;margin:0 0 10px}
 .notice{background:#fff7e2;border:1px solid #f0dfa8;color:#765b17;padding:12px;border-radius:11px;font-size:15px;line-height:1.5}
 .actions{display:flex;gap:10px;margin-top:18px}.actions button{flex:1}
 a{color:var(--blue)}.hidden{display:none!important}
@@ -47,12 +47,12 @@ a{color:var(--blue)}.hidden{display:none!important}
 <div class="steps"><span class="on">1 · Job details</span><span>2 · Hazards</span><span>3 · Finish</span></div>
 <h1>Tell us about the job</h1><p class="sub">A few details. We'll fill in what we already know.</p>
 <div class="panel">
-<label>Job title *</label><input id="jobTitle" placeholder="e.g. Fixing a light on a ladder" oninput="refreshSuggestions()">
+function readDetails(){['jobTitle','description','site','building','instructed','responsible','compiled','others','siteNotes','riskNumber','communicationOther','welfareOther','siteInfoOther','otherTrades','otherTradesWho','toolsOther','ppeOther'].forEach(k=>{if($(k))current[k]=$(k).value.trim()});current.title=current.jobTitle;['communication','welfare','siteInfo','tools','ppe','requirements'].forEach(k=>current[k]=checkedValues(k));}
 <label>What work will you be doing?</label><textarea id="description" placeholder="Briefly describe the task..."></textarea>
 <div class="grid2"><div><label>Site</label><input id="site" value="Millfields Trust"></div><div><label>Building / location</label><input id="building" placeholder="e.g. Main office"></div></div>
 <div class="grid2"><div><label>Instructed by</label><input id="instructed" placeholder="Name"></div><div><label>Responsible person</label><select id="responsible"><option>Luke</option><option>Jason</option></select></div></div>
 <div class="grid2"><div><label>Other people on site</label><input id="others" placeholder="e.g. Jason / Nobody"></div><div><label>Compiled by</label><select id="compiled"><option>Luke</option><option>Jason</option></select></div></div>
-<label>Task location / notes</label><textarea id="siteNotes" placeholder="Access, restrictions or anything the client has mentioned..."></textarea>
+<label>Risk assessment number (if applicable)</label><input id="riskNumber" placeholder="Optional reference number">\n<label>Task location / notes</label><textarea id="siteNotes" placeholder="Access, restrictions or anything the client has mentioned..."></textarea>
 </div>
 <button class="primary" onclick="goHazards()">Next: review hazards →</button>
 </section>
@@ -65,16 +65,34 @@ a{color:var(--blue)}.hidden{display:none!important}
 <div class="panel"><h2>Work activities</h2><p class="sub">Select the activities that apply.</p><div id="activityList"></div></div>
 <div class="panel"><h2>Anything else?</h2><label>Additional hazard</label><input id="extraName" placeholder="Hazard name"><label>Foreseeable risk</label><input id="extraRisk" placeholder="What could happen?"><label>Control measures</label><textarea id="extraControl" placeholder="How will the risk be controlled?"></textarea><button class="secondary" onclick="addExtra()">＋ Add hazard</button><div id="extras"></div></div>
 <div class="notice">Suggestions are not a substitute for a site-specific assessment. Add, remove or amend items so the document reflects the actual work.</div>
-<div class="actions"><button class="secondary" onclick="show('details')">← Back</button><button class="primary" onclick="showReview()">Next: review →</button></div>
+<div class="actions"><button class="secondary" onclick="show('details')">← Back</button><button class="primary" onclick="goEquipment()">Next: site arrangements →</button></div>
 </section>
 
-<section id="review" class="screen">
+
+<section id="site" class="screen">
+<div class="steps"><span class="on">1 · Details</span><span class="on">2 · Hazards</span><span class="on">3 · Site</span><span>4 · Equipment</span><span>5 · Finish</span></div>
+<h1>Site arrangements</h1><p class="sub">Select the arrangements that apply to this job.</p>
+<div class="panel"><h2>Communication</h2><div id="communicationList"></div><label>Other communication arrangements</label><input id="communicationOther" placeholder="Optional details"></div>
+<div class="panel"><h2>Welfare facilities</h2><div id="welfareList"></div><label>Other welfare arrangements</label><input id="welfareOther" placeholder="Optional details"></div>
+<div class="panel"><h2>Client / site information</h2><div id="siteInfoList"></div><label>Other site information</label><input id="siteInfoOther" placeholder="Optional details"></div>
+<div class="panel"><h2>Other trades / subcontractors</h2><label>Are other trades working on site?</label><select id="otherTrades"><option value="Nobody">Nobody</option><option value="Other trades / subcontractors">Yes</option></select><label>If yes, who?</label><input id="otherTradesWho" placeholder="Names / companies"></div>
+<div class="actions"><button class="secondary" onclick="show('hazards')">← Back</button><button class="primary" onclick="goEquipment()">Next: equipment & PPE →</button></div>
+</section>
+<section id="equipment" class="screen">
+<div class="steps"><span class="on">1 · Details</span><span class="on">2 · Hazards</span><span class="on">3 · Site</span><span class="on">4 · Equipment</span><span>5 · Finish</span></div>
+<h1>Equipment and PPE</h1><p class="sub">Choose what you'll use or need for this task.</p>
+<div class="panel"><h2>Daily plant / tools inspection</h2><div id="toolsList"></div><label>Other equipment</label><input id="toolsOther" placeholder="Optional"></div>
+<div class="panel"><h2>PPE required</h2><div id="ppeList"></div><label>Other PPE</label><input id="ppeOther" placeholder="Specify"></div>
+<div class="panel"><h2>Work requirements</h2><div id="requirementsList"></div></div>
+<div class="actions"><button class="secondary" onclick="show('site')">← Back</button><button class="primary" onclick="goReview()">Next: review →</button></div>
+</section>
+\n<section id="review" class="screen">
 <div class="steps"><span class="on">1 · Job details</span><span class="on">2 · Hazards</span><span class="on">3 · Finish</span></div>
 <h1>Ready to create?</h1><p class="sub">Check the details before generating your Excel assessment.</p>
 <div class="panel" id="reviewSummary"></div>
 <div class="notice">The generated workbook uses your supplied Daily Risk Assessment layout. Dates will be updated consistently, including the operative sign-on date. Signatures and final site checks still need to be completed by the relevant people.</div>
 <label>Assessment date</label><input type="date" id="assessmentDate">
-<div class="actions"><button class="secondary" onclick="show('hazards')">← Back</button><button class="green" onclick="generateExcel()">Create Excel file</button></div>
+<div class="actions"><button class="secondary" onclick="show('equipment')">← Back</button><button class="green" onclick="generateExcel()">Create Excel file</button></div>
 </section>
 <section id="done" class="screen">
 <div class="panel" style="text-align:center;padding:30px 18px"><div style="font-size:42px">✓</div><h1>Assessment created</h1><p class="sub">Your Excel file has been generated and your job has been saved for next time.</p><button class="green" id="downloadAgain">Download Excel</button><button class="secondary" style="width:100%;margin-top:10px" onclick="show('home')">Back to home</button></div>
@@ -112,20 +130,44 @@ a=a.map(t=>{
 return a}catch(e){return JSON.parse(JSON.stringify(STARTER_TEMPLATES))}}
 function saveTemplates(a){localStorage.setItem(KEY,JSON.stringify(a))}
 function dateISO(){return new Date().toISOString().slice(0,10)}
-function newAssessment(){current={title:'',description:'',site:'Millfields Trust',building:'',instructed:'',responsible:'Luke',compiled:'Luke',others:'',siteNotes:'',hazards:[],activities:[],extras:[]};extras=[];fillDetails();$('assessmentDate').value=dateISO();show('details')}
-function fillDetails(){['jobTitle','description','site','building','instructed','responsible','compiled','others','siteNotes'].forEach(k=>$(k).value=current[k]||'');persistDraft()}
-function readDetails(){['jobTitle','description','site','building','instructed','responsible','compiled','others','siteNotes'].forEach(k=>current[k]=$(k).value.trim());current.title=current.jobTitle}
+
+const CHECKS={
+communication:['Daily Briefing Before Work Starts','Face To Face As Any Changes Occur','Written Work Instructions'],
+welfare:['Agreement To Use The Existing Clients Facilities','Use Temporary Facilities','Use Public Facilities'],
+siteInfo:['Asbestos Present In The Job Location','Children / Vulnerable Persons Present','Building Structural Problems','Specific Site Restrictions','Restricted Access / Egress to the Work Location','Specific Site Emergency Procedures','Restricted Material Storage'],
+tools:['Lifting Equipment','Access Equipment','110v Lighting & Equipment','Hand & Power Tools'],
+ppe:['Steel Toe Caps','Safety Glasses','Gloves','Hi-Viz Clothing','Wet Weather Gear','Hard Hat','Dust Mask','Goggles','Face Shield','Harness'],
+requirements:['Use Of Power Tools','Working From Mobile Scaffold Tower','Working On Fixed Scaffold','Working Off A Ladder / Stepladders / Podium','Drilling or Other Noisy Works','Cutting & Grinding','Use Of Hand Tools / Spanners / Pipe Wrench','Use of Specialist Hired Equipment']
+};
+function checkedValues(key){return Array.from(document.querySelectorAll('[data-check="'+key+'"]:checked')).map(x=>x.value)}
+function drawChecks(key){let el=$(key+'List');if(!el)return;el.innerHTML=CHECKS[key].map(v=>`<label class="checkrow"><input data-check="${key}" type="checkbox" value="${attr(v)}" ${(current[key]||[]).includes(v)?'checked':''} onchange="persistDraft()"><span><b>${esc(v)}</b></span></label>`).join('')}
+function renderArrangementForms(){Object.keys(CHECKS).forEach(drawChecks);['communicationOther','welfareOther','siteInfoOther','otherTrades','otherTradesWho','toolsOther','ppeOther'].forEach(k=>{if($(k))$(k).value=current[k]||''})}
+function goEquipment(){readDetails();renderArrangementForms();show('equipment')}
+function goReview(){readDetails();showReview()}
+
+function newAssessment(){current={title:'',description:'',site:'Millfields Trust',building:'',instructed:'',responsible:'Luke',compiled:'Luke',others:'',siteNotes:'',riskNumber:'',hazards:[],activities:[],extras:[],communication:[],welfare:[],siteInfo:[],tools:[],ppe:[],requirements:[]};extras=[];fillDetails();$('assessmentDate').value=dateISO();show('details')}
+function fillDetails(){['jobTitle','description','site','building','instructed','responsible','compiled','others','siteNotes','riskNumber','communicationOther','welfareOther','siteInfoOther','otherTrades','otherTradesWho','toolsOther','ppeOther'].forEach(k=>$(k).value=current[k]||'');renderArrangementForms();persistDraft()}
+function readDetails(){['jobTitle','description','site','building','instructed','responsible','compiled','others','siteNotes','riskNumber','communicationOther','welfareOther','siteInfoOther','otherTrades','otherTradesWho','toolsOther','ppeOther'].forEach(k=>{if($(k))current[k]=$(k).value.trim()});current.title=current.jobTitle;['communication','welfare','siteInfo','tools','ppe','requirements'].forEach(k=>current[k]=checkedValues(k));}
 function renderRecent(){let a=templates().slice(-4).reverse();$('recent').innerHTML=a.length?a.map((t,i)=>`<div class="jobrow"><div><b>${esc(t.title)}</b><small>Saved job · ${esc(t.updated||'')}</small></div><button class="secondary" onclick="useTemplate(${templates().length-1-i})">Use</button></div>`).join(''):'<p class="sub">Your saved jobs will appear here after your first assessment.</p>'}
 function renderTemplates(){let a=templates().slice().reverse();$('templateList').innerHTML=a.length?a.map((t,i)=>`<div class="jobrow"><div><b>${esc(t.title)}</b><small>${esc(t.building||t.site||'')} · Last used ${esc(t.updated||'')}</small></div><button class="secondary" onclick="useTemplate(${a.length-1-i})">Use</button></div>`).join(''):'<p class="sub">No saved jobs yet. Create an assessment and it will be saved automatically.</p>'}
 function useTemplate(i){let a=templates(),t=a[i];if(!t)return;current=JSON.parse(JSON.stringify(t));current.hazards=t.hazards||[];current.activities=t.activities||[];extras=current.extras||[];current.date=dateISO();fillDetails();$('assessmentDate').value=dateISO();persistDraft();show('details')}
 function refreshSuggestions(){}
-function goHazards(){readDetails();if(!current.title){alert('Please enter a job title.');return}let text=(current.title+' '+current.description).toLowerCase();let suggested=new Set();rules.forEach(rule=>{if(rule.terms.some(term=>text.includes(term)))rule.hazards.forEach(h=>suggested.add(h))});if(!suggested.size){suggested.add('Falls On Same Level, Slips & Trips');suggested.add('Manual Handling')}current.hazards=Array.from(new Set([...(current.hazards||[]),...Array.from(suggested)]));let acts=new Set(current.activities||[]);rules.forEach(rule=>{if(rule.terms.some(term=>text.includes(term)))rule.activities.forEach(a=>acts.add(a))});current.activities=Array.from(acts);renderHazards();persistDraft();show('hazards')}
-function renderHazards(){let selected=new Set(current.hazards||[]);$('hazardList').innerHTML=LIB.hazards.map(h=>`<label class="suggestion"><input type="checkbox" ${selected.has(h.name)?'checked':''} onchange="toggleHazard('${attr(h.name)}',this.checked)"><span><b>${esc(h.name)}</b><small><strong>Risk:</strong> ${esc(h.risk)}<br><strong>Control:</strong> ${esc(h.control)}</small></span></label>`).join('');let act=new Set(current.activities||[]);$('activityList').innerHTML=LIB.activities.map(a=>`<label class="suggestion"><input type="checkbox" ${act.has(a.name)?'checked':''} onchange="toggleActivity('${attr(a.name)}',this.checked)"><span><b>${esc(a.name)}</b></span></label>`).join('');renderExtras()}
+function goHazards(){readDetails();if(!current.title){alert('Please enter a job title.');return}let text=(current.title+' '+current.description).toLowerCase();let acts=new Set(current.activities||[]);rules.forEach(rule=>{if(rule.terms.some(term=>text.includes(term)))rule.activities.forEach(a=>acts.add(a))});current.activities=Array.from(acts);hazardTab='suggested';renderHazards();setHazardTab('suggested');persistDraft();show('hazards')}
+let hazardTab='selected';
+function setHazardTab(tab){hazardTab=tab;['selected','suggested','all'].forEach(t=>$('tab'+t[0].toUpperCase()+t.slice(1)).classList.toggle('active',t===tab));renderHazards()}
+function suggestedHazards(){let text=((current?.title||'')+' '+(current?.description||'')).toLowerCase(),found=new Set();rules.forEach(r=>{if(r.terms.some(t=>text.includes(t)))r.hazards.forEach(h=>found.add(h))});return found}
+function renderHazards(){
+ let selected=new Set(current.hazards||[]),suggested=suggestedHazards(),q=($('hazardSearch')?.value||'').toLowerCase();
+ $('selectedCount').textContent=selected.size;$('suggestedCount').textContent=[...suggested].filter(n=>!selected.has(n)).length;
+ let items=LIB.hazards.filter(h=>{let a=selected.has(h.name),b=suggested.has(h.name);return (hazardTab==='selected'?a:hazardTab==='suggested'?(b&&!a):true)&&(!q||(h.name+' '+h.risk+' '+h.control).toLowerCase().includes(q))});
+ $('hazardList').innerHTML=items.length?items.map(h=>`<label class="suggestion"><input type="checkbox" ${selected.has(h.name)?'checked':''} onchange="toggleHazard('${attr(h.name)}',this.checked)"><span><b>${esc(h.name)}</b><small><strong>Risk:</strong> ${esc(h.risk)}<br><strong>Control:</strong> ${esc(h.control)}</small></span></label>`).join(''):'<p class="sub">Nothing in this section yet.</p>';
+ let act=new Set(current.activities||[]);$('activityList').innerHTML=LIB.activities.map(a=>`<label class="suggestion"><input type="checkbox" ${act.has(a.name)?'checked':''} onchange="toggleActivity('${attr(a.name)}',this.checked)"><span><b>${esc(a.name)}</b></span></label>`).join('');renderExtras()
+}
 function toggleHazard(n,on){let s=new Set(current.hazards);on?s.add(n):s.delete(n);current.hazards=Array.from(s);persistDraft()}
 function toggleActivity(n,on){let s=new Set(current.activities);on?s.add(n):s.delete(n);current.activities=Array.from(s);persistDraft()}
 function addExtra(){let name=$('extraName').value.trim(),risk=$('extraRisk').value.trim(),control=$('extraControl').value.trim();if(!name){alert('Enter a hazard name.');return}extras.push({name,risk,control});current.extras=extras;persistDraft();$('extraName').value='';$('extraRisk').value='';$('extraControl').value='';renderExtras()}
 function renderExtras(){$('extras').innerHTML=extras.map((e,i)=>`<div class="jobrow"><div><b>${esc(e.name)}</b><small>${esc(e.risk)}</small></div><button class="quiet" onclick="extras.splice(${i},1);current.extras=extras;renderExtras()">Remove</button></div>`).join('')}
-function showReview(){current.extras=extras;persistDraft();let h=current.hazards||[];if(!h.length){alert('Please select at least one hazard.');return}let d=$('assessmentDate').value||dateISO();$('assessmentDate').value=d;$('reviewSummary').innerHTML=`<div class="jobrow"><div><small>JOB</small><b>${esc(current.title)}</b></div></div><div class="jobrow"><div><small>LOCATION</small><b>${esc(current.site)} · ${esc(current.building)}</b></div></div><div class="jobrow"><div><small>RESPONSIBLE PERSON</small><b>${esc(current.responsible)}</b></div></div><div class="jobrow"><div><small>HAZARDS SELECTED</small><b>${h.length+extras.length}</b></div></div><div class="jobrow"><div><small>WORK ACTIVITIES</small><b>${(current.activities||[]).length}</b></div></div>`;show('review')}
+function showReview(){current.extras=extras;persistDraft();let h=current.hazards||[];if(!h.length){alert('Please select at least one hazard.');return}let d=$('assessmentDate').value||dateISO();$('assessmentDate').value=d;$('reviewSummary').innerHTML=`<div class="jobrow"><div><small>JOB</small><b>${esc(current.title)}</b></div></div><div class="jobrow"><div><small>LOCATION</small><b>${esc(current.site)} · ${esc(current.building)}</b></div></div><div class="jobrow"><div><small>RESPONSIBLE PERSON</small><b>${esc(current.responsible)}</b></div></div><div class="jobrow"><div><small>HAZARDS SELECTED</small><b>${h.length+extras.length}</b></div></div><div class="jobrow"><div><small>WORK ACTIVITIES</small><b>${(current.activities||[]).length}</b></div></div><div class="jobrow"><div><small>SITE / PPE / EQUIPMENT</small><b>${['communication','welfare','siteInfo','tools','ppe','requirements'].reduce((n,k)=>n+(current[k]||[]).length,0)} selections</b></div></div>`;show('review')}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function attr(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
 function excelDate(d){let [y,m,day]=d.split('-');return `${day}/${m}/${y}`}
@@ -144,8 +186,23 @@ async function generateExcel(){
   sh.getCell('F17').value=current.responsible||'';
   sh.getCell('F21').value=current.others||'Nobody';
   sh.getCell('A25').value=current.description||current.title;
+  sh.getCell('A15').value='Risk Assessment Number if applicable: '+(current.riskNumber||'');
+  sh.getCell('F22').value=current.otherTradesWho||'';
+  const commRows=[29,30,31];commRows.forEach((r,i)=>sh.getCell(`J${r}`).value=(current.communication||[]).includes(CHECKS.communication[i])?'x':null);
+  [29,30,31].forEach((r,i)=>sh.getCell(`T${r}`).value=(current.welfare||[]).includes(CHECKS.welfare[i])?'x':null);
+  if(current.communicationOther)sh.getCell('A32').value='Other: '+current.communicationOther;
+  if(current.welfareOther)sh.getCell('K32').value='Other: '+current.welfareOther;
+  const siteMap=[['J',35],['T',35],['J',36],['T',36],['J',37],['T',37],['J',38]];
+  const siteLabels=CHECKS.siteInfo;siteMap.forEach(([col,row],i)=>sh.getCell(`${col}${row}`).value=(current.siteInfo||[]).includes(siteLabels[i])?'x':null);
+  if(current.siteInfoOther)sh.getCell('K38').value='Other: '+current.siteInfoOther;
+  [['J',41,'Lifting Equipment'],['T',41,'Access Equipment'],['J',42,'110v Lighting & Equipment'],['T',42,'Hand & Power Tools']].forEach(([c,r,n])=>sh.getCell(`${c}${r}`).value=(current.tools||[]).includes(n)?'x':null);
+  const ppeCells={'Steel Toe Caps':'C61','Safety Glasses':'F61','Gloves':'I61','Hi-Viz Clothing':'L61','Wet Weather Gear':'O61','Hard Hat':'C62','Dust Mask':'F62','Goggles':'I62','Face Shield':'L62','Harness':'O62'};
+  Object.entries(ppeCells).forEach(([n,c])=>sh.getCell(c).value=(current.ppe||[]).includes(n)?'x':null);
+  if(current.ppeOther)sh.getCell('P61').value='Other, Specify: '+current.ppeOther;
+  [65,66,67,68,69,70,71,72].forEach((r,i)=>sh.getCell(`J${r}`).value=(current.requirements||[]).includes(CHECKS.requirements[i])?'x':null);
+
   // reset any existing tick marks in the selected lists
-  [...Array(75-75+1)].forEach(()=>{});
+  
   const selectedHaz=new Set(current.hazards||[]);
   LIB.hazards.forEach(h=>{sh.getCell(`T${h.row}`).value=selectedHaz.has(h.name)?'x':null});
   (current.activities||[]).forEach(name=>{let a=LIB.activities.find(x=>x.name===name);if(a)sh.getCell(`J${a.row}`).value='x'});
@@ -166,8 +223,8 @@ async function generateExcel(){
 async function init(){
  try{let r=await fetch('./library.json');LIB=await r.json()}catch(e){alert('Could not load the hazard library. Please run the app from its web address, not by opening the HTML file directly.')}
  templates();renderRecent();$('assessmentDate').value=dateISO();
- document.querySelectorAll('#details input,#details textarea,#details select,#review input').forEach(el=>{el.addEventListener('input',persistDraft);el.addEventListener('change',persistDraft)});
- try{let saved=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');if(saved&&saved.current){current=saved.current;extras=saved.extras||current.extras||[];fillDetails();$('assessmentDate').value=saved.assessmentDate||dateISO();let target=localStorage.getItem(SCREEN_KEY)||'home';if(['details','hazards','review','home','templates'].includes(target)){if(target==='hazards')renderHazards();if(target==='review')showReview();show(target)}}}catch(e){}
+ document.querySelectorAll('input,textarea,select').forEach(el=>{el.addEventListener('input',persistDraft);el.addEventListener('change',persistDraft)});
+ try{let saved=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');if(saved&&saved.current){current=saved.current;extras=saved.extras||current.extras||[];fillDetails();$('assessmentDate').value=saved.assessmentDate||dateISO();let target=localStorage.getItem(SCREEN_KEY)||'home';if(['details','hazards','site','equipment','review','home','templates'].includes(target)){if(target==='hazards')renderHazards();if(target==='site'||target==='equipment')renderArrangementForms();if(target==='review')showReview();show(target)}}}catch(e){}
 }
 window.addEventListener('beforeunload',persistDraft);
 init();
