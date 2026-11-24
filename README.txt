@@ -15,3 +15,4 @@ TO TEST
 4. Open the published Pages address on your phone.
 
 Do not use generated assessments without reviewing every hazard and control measure and completing the required site checks and signatures. The current prototype does not yet fill every optional field in the source workbook; it focuses on job details, selected work activities, selected hazards, additional hazards, and consistent sign-on dates. Later versions can add the remaining checklist sections and shared multi-user storage.
+\n\nV1.2 updates: three starter templates imported from the supplied completed assessments (Manual Handling, Litter Pick-up, and Put Out / Bring In Bins). New Assessment details screen now has a Back button. Header logo returns home. Draft and current screen are saved locally so refreshing the page restores the current step and entered details.\n
