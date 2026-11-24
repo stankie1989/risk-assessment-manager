@@ -1,12 +1,9 @@
-Risk Assessment Manager v1.6.6
+Risk Assessment Manager v1.6.8
 
-Changes:
-- Navigation bar is clickable for sections already completed. Future sections remain disabled until the user reaches them in order.
-- Clicking a completed section saves current edits and returns to that section; users can continue forward.
-- Building Name is blank by default on new assessments.
-- Building Name offers suggestions: HQ, Genesis, Creykes Court and MSR, while allowing other building names to be typed.
-- Automatic building detection populates Building Name, not Unit Number.
-- Unit Number is separate; its example no longer includes HQ.
-- Existing templates and other features retained.
+Change:
+- Job titles are automatically formatted in Title Case when the user leaves the Job Title field and again when assessment details are saved/exported.
+- Example: "change lights" becomes "Change Lights".
+- The formatted title is saved with the assessment/template and used in the exported Excel document.
+- All V1.6.7 fixes are retained.
 
 Upload all five files to the root of the existing GitHub repository, replacing existing versions.
